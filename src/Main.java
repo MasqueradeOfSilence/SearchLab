@@ -1,3 +1,4 @@
+import RobotFunctions.Decoder;
 import RobotFunctions.Robot;
 import TelnetFunctions.Telnet;
 
@@ -11,18 +12,25 @@ public class Main
 {
     public static void main(String argv[]) throws IOException, InterruptedException
     {
-        Robot r = new Robot();
+        Robot robot = new Robot();
         System.out.println("Hi. I am a robot \uD83E\uDD16");
         Telnet connection = new Telnet();
 
+        String w = connection.sendWhere();
+        Decoder.updateTerrainField(robot, w);
+        robot.calculatePath();
         while(true)
         {
-            String s=connection.sendWhere();
+            String s = connection.sendWhere();
 
            if(s.equals("None") || s.equals("") || s.equals("\n"))
            {
                continue;
            }
+            Decoder.updateRobot(robot, s);
+           // robot will follow what the list says to do
+
+           // if speed 0 0, stop the robot
         }
     }
 

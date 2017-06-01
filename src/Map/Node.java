@@ -12,6 +12,11 @@ public class Node
 {
     private double degree = 0;
     private Coordinate location = new Coordinate(-1, -1);
+
+    private Coordinate topLeft;
+    private Coordinate topRight;
+    private Coordinate bottomLeft;
+    private Coordinate bottomRight;
     /**
      * All the previous nodes up to this point in our current path
      */

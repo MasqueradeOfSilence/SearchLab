@@ -11,7 +11,11 @@ import java.util.ArrayList;
  */
 public class MachineVision
 {
-    public ArrayList<Node> computeOptimalPath()
+    public ArrayList<Node> computeOptimalPathForBranchandBound(Robot r)
+    {
+        return new ArrayList<>();
+    }
+    public ArrayList<Node> computeOptimalPathForROT(Robot r)
     {
         return new ArrayList<>();
     }

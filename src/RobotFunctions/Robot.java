@@ -52,6 +52,8 @@ public class Robot
         optimalPath = vision.computeOptimalPath();
     }
 
+
+
     public void calculateTerrainMap(ArrayList<Obstacle>obstacles)
     {
         for(Obstacle o: obstacles)

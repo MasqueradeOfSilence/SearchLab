@@ -36,14 +36,25 @@ public class Robot
     }
 
 
-    // I code this (Alex). This function will be perfect.
-    public void calculateTerrainMap(ArrayList<Obstacle>obstacles)
+    /**
+     * Initial setup of the terrain map as per the steps
+     *  outlined in the specs.
+     *
+     *
+     * @param obstacles Each obstacle that is in our terrain map.
+     *                  Goal has already been taken care of and assigned.
+     */
+    public void calculateTerrainMap(ArrayList<Obstacle> obstacles)
     {
-        for(Obstacle o: obstacles)
+        // I code this (Alex). This function will be perfect.
+        for(Obstacle currentObstacle : obstacles)
         {
 
         }
     }
+    // Though nothing I bleed for is more tormenting....
+    // She made my stormy sky beautiful.
+
     public void rotateMe(Telnet t) throws IOException, InterruptedException
     {
         // Figure out the angles
@@ -57,10 +68,10 @@ public class Robot
         // Robot needs to face the vector angle
 
         double degreefromMap = -1;
+
         /*TODO  We need to calculate the degree that the robot gets from the terrain map.  Will be different now also need
         to recalculate  how we did our rotation as the formula was incorrect.
         */
-
     }
 
     //<editor-fold desc="Getters/Setters">

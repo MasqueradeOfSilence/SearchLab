@@ -19,4 +19,16 @@ public class TerrainMap
         // 1920 x 1080 pixels; there is no buffer
         myMap = new Node[RobotUtils.gridDimensionX][RobotUtils.gridDimensionY];
     }
+
+    //<editor-fold desc="Getters/Setters!">
+    public Node[][] getMyMap()
+    {
+        return myMap;
+    }
+
+    public void setMyMap(Node[][] myMap)
+    {
+        this.myMap = myMap;
+    }
+    //</editor-fold>
 }

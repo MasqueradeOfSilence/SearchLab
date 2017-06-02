@@ -62,6 +62,7 @@ public class Decoder
         }
         processObstacles(obstacles, robot);
         robot.calculateTerrainMap(obstacles);
+        updateRobot(robot,json);
 
     }
     private static void processObstacles(ArrayList<Obstacle> obstacles, Robot r)

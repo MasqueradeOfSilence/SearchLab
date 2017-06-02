@@ -19,20 +19,20 @@ public class TestTerrainMapSetup extends TestCase
      * There is no peace
      * There is only destruction
      */
-    private Robot annihilateTheWorld;
+    private Robot destroyTheWorld;
 
     @Before
     public void setUp() throws Exception
     {
         super.setUp();
-        annihilateTheWorld = new Robot();
+        destroyTheWorld = new Robot();
     }
 
     @After
     public void tearDown() throws Exception
     {
         super.tearDown();
-        annihilateTheWorld = null;
+        destroyTheWorld = null;
     }
 
     /**
@@ -44,7 +44,7 @@ public class TestTerrainMapSetup extends TestCase
     public void testHardcodedMap() throws Exception
     {
         System.out.println("Hardcoded map test case...\n");
-        TerrainMap myMap = annihilateTheWorld.getMap();
+        TerrainMap myMap = destroyTheWorld.getMap();
         Node[][] map = myMap.getMyMap();
 
         map[0][0].setType(RobotUtils.TYPE.OBSTACLE);

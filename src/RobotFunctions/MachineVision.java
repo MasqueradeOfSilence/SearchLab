@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class MachineVision
 {
-    public ArrayList<Node> computeOptimalPathForBranchandBound(Robot r)
+    public ArrayList<Node> computeOptimalPathForBranchandBound(Robot r)//robot does need a starting location.
     {
         return new ArrayList<>();
     }

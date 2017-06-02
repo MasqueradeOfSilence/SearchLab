@@ -41,4 +41,8 @@ public class RobotUtils
         double y = orientation.getY();
         return Math.acos(x) * sign(y);
     }
+    public static Coordinate convertFromPixeltoNode(Coordinate c)
+    {
+        return new Coordinate(c.getX()/sizeoftiles, c.getY()/sizeoftiles);
+    }
 }

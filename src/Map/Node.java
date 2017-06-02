@@ -4,6 +4,8 @@ import RobotFunctions.RobotUtils;
 
 import java.util.ArrayList;
 
+import static RobotFunctions.RobotUtils.TYPE.REGULAR;
+
 /**
  * Created by williamjones on 5/15/17.
  * Class designed to represent a node in our traversal graph.
@@ -13,6 +15,7 @@ public class Node
     private double degree = 0;
     private Coordinate location = new Coordinate(-1, -1);
 
+    // these would be in pixels, not node coordinates
     private Coordinate topLeft;
     private Coordinate topRight;
     private Coordinate bottomLeft;
@@ -25,7 +28,7 @@ public class Node
 
     public Node()
     {
-
+        type = REGULAR;
     }
 
     //<editor-fold desc="Getters/Setters! :D">

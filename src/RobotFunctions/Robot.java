@@ -24,6 +24,7 @@ public class Robot
     public Robot()
     {
         optimalPath = new ArrayList<>();
+        map = new TerrainMap();
     }
 
     /**
@@ -35,6 +36,37 @@ public class Robot
         optimalPath = vision.computeOptimalPathForBranchandBound(this);
     }
 
+    /**
+     * @author Alex
+     *
+     * Determines whether or not x and y are inside of an obstacle.
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param currentObstacle The obstacle we are determining.
+     * @return true if inside; false otherwise.
+     */
+    private boolean areCoordinatesInsideOfObstacle(int x, int y, Obstacle currentObstacle)
+    {
+        Coordinate center = currentObstacle.getCenter();
+        Coordinate lowerRight = currentObstacle.getCorner1();
+        Coordinate upperRight = currentObstacle.getCorner2();
+        Coordinate upperLeft = currentObstacle.getCorner3();
+        Coordinate lowerLeft = currentObstacle.getCorner4();
+
+        Coordinate nodeCenter = RobotUtils.convertFromPixeltoNode(center);
+        Coordinate nodeLowerRight = RobotUtils.convertFromPixeltoNode(lowerRight);
+        Coordinate nodeUpperRight = RobotUtils.convertFromPixeltoNode(upperRight);
+        Coordinate nodeUpperLeft = RobotUtils.convertFromPixeltoNode(upperLeft);
+        Coordinate nodeLowerLeft = RobotUtils.convertFromPixeltoNode(lowerLeft);
+
+        boolean isInside = (x == nodeCenter.getX() && y == nodeCenter.getY())
+                || (x == nodeLowerRight.getX() && y == nodeLowerRight.getY())
+                || (x == nodeUpperRight.getX() && y == nodeUpperRight.getY())
+                || (x == nodeUpperLeft.getX() && y == nodeUpperLeft.getY())
+                || (x == nodeLowerLeft.getX() && y == nodeLowerLeft.getY());
+
+        return isInside;
+    }
 
     /**
      * Initial setup of the terrain map as per the steps
@@ -42,26 +74,28 @@ public class Robot
      *  @author Alex
      *
      * @param obstacles Each obstacle that is in our terrain map.
-     *                  Goal has already been taken care of and assigned.
+     *                  Assumption: Goal has already been taken care of and assigned.
      */
     public void calculateTerrainMap(ArrayList<Obstacle> obstacles)
     {
-        // I code this (Alex). This function will be perfect.
-
-        // Setup of node locations
-        for (int i = 0; i < map.getMyMap().length; i++)
-        {
-            for (int j = 0; j < map.getMyMap()[i].length; j++)
-            {
-                Node current = map.getMyMap()[i][j];
-                current.setLocation(new Coordinate(i, j));
-            }
-        }
-
         // Any nodes that are inside of the obstacle's corners become obstacle type
         for(Obstacle currentObstacle : obstacles)
         {
+            for (int p = 0; p < map.getMyMap().length; p++)
+            {
+                for (int q = 0; q < map.getMyMap()[p].length; q++)
+                {
+                    Node current = map.getMyMap()[p][q];
+                    current.setLocation(new Coordinate(p, q));
 
+                    if (areCoordinatesInsideOfObstacle(p, q, currentObstacle)
+                            && current.getType() != RobotUtils.TYPE.GOAL)
+                    {
+                        current.setType(RobotUtils.TYPE.OBSTACLE);
+                    }
+                    // Otherwise, it stays with either goal or regular.
+                }
+            }
         }
     }
     // Though nothing I bleed for is more tormenting....

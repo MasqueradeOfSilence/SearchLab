@@ -39,7 +39,7 @@ public class Robot
     /**
      * Initial setup of the terrain map as per the steps
      *  outlined in the specs.
-     *
+     *  @author Alex
      *
      * @param obstacles Each obstacle that is in our terrain map.
      *                  Goal has already been taken care of and assigned.
@@ -47,6 +47,18 @@ public class Robot
     public void calculateTerrainMap(ArrayList<Obstacle> obstacles)
     {
         // I code this (Alex). This function will be perfect.
+
+        // Setup of node locations
+        for (int i = 0; i < map.getMyMap().length; i++)
+        {
+            for (int j = 0; j < map.getMyMap()[i].length; j++)
+            {
+                Node current = map.getMyMap()[i][j];
+                current.setLocation(new Coordinate(i, j));
+            }
+        }
+
+        // Any nodes that are inside of the obstacle's corners become obstacle type
         for(Obstacle currentObstacle : obstacles)
         {
 

@@ -4,7 +4,6 @@ import Map.Coordinate;
 import Map.Node;
 import Map.TerrainMap;
 import TelnetFunctions.Telnet;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,24 +18,8 @@ public class Robot
     private ArrayList<Node> optimalPath;
     private MachineVision vision;
     private TerrainMap map;
-    Coordinate currentlocation;
-    Coordinate orientation;
-
-    public Coordinate getCurrentlocation() {
-        return currentlocation;
-    }
-
-    public void setCurrentlocation(Coordinate currentlocation) {
-        this.currentlocation = currentlocation;
-    }
-
-    public Coordinate getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientaion(Coordinate orientaion) {
-        this.orientation = orientaion;
-    }
+    private Coordinate currentLocation;
+    private Coordinate orientation;
 
     public Robot()
     {
@@ -49,11 +32,11 @@ public class Robot
      */
     public void calculatePath()
     {
-        optimalPath = vision.computeOptimalPath();
+        optimalPath = vision.computeOptimalPathForBranchandBound(this);
     }
 
 
-
+    // I code this (Alex). This function will be perfect.
     public void calculateTerrainMap(ArrayList<Obstacle>obstacles)
     {
         for(Obstacle o: obstacles)
@@ -79,4 +62,30 @@ public class Robot
         */
 
     }
+
+    //<editor-fold desc="Getters/Setters">
+    public TerrainMap getMap()
+    {
+        return map;
+    }
+    public Coordinate getCurrentLocation()
+    {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Coordinate currentLocation)
+    {
+        this.currentLocation = currentLocation;
+    }
+
+    public Coordinate getOrientation()
+    {
+        return orientation;
+    }
+
+    public void setOrientation(Coordinate orientation)
+    {
+        this.orientation = orientation;
+    }
+    //</editor-fold>
 }

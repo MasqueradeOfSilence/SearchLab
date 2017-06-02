@@ -2,7 +2,6 @@ package RobotFunctions;
 
 
 import Map.Coordinate;
-import Map.TerrainMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,13 +18,16 @@ public class Decoder
     /**
      * From JSON: The information we need to update the map
      */
-    public static void updateTerrainField(Robot robot, String json) {
+    public static void updateTerrainField(Robot robot, String json)
+    {
         ArrayList<Obstacle>obstacles=new ArrayList<>();
         JSONObject myobject = new JSONObject(json);
         final Iterator<String> keys = myobject.keys();
-        while (keys.hasNext()) {
+        while (keys.hasNext())
+        {
             final String key = keys.next();
-            if (!key.equals("robot") && !key.equals("time")) {
+            if (!key.equals("robot") && !key.equals("time"))
+            {
                 // this broke eh
                 JSONObject jason = (JSONObject) myobject.get(key);
                 JSONArray orientation = jason.getJSONArray("orientation");
@@ -59,7 +61,7 @@ public class Decoder
 
         }
         processObstacles(obstacles, robot);
-        robot.calculateTerrainMap();
+        robot.calculateTerrainMap(obstacles);
 
     }
     private static void processObstacles(ArrayList<Obstacle> obstacles, Robot r)
@@ -93,7 +95,7 @@ public class Decoder
         JSONArray orientationCoordinates = robotstring.getJSONArray("orientation");
         double a = orientationCoordinates.getDouble(0);
         double b = orientationCoordinates.getDouble(1);
-        robot.setOrientaion(new Coordinate(a, b));
-        robot.setCurrentlocation(new Coordinate((int)x, (int)y));
+        robot.setOrientation(new Coordinate(a, b));
+        robot.setCurrentLocation(new Coordinate((int)x, (int)y));
     }
 }

@@ -267,16 +267,17 @@ public class MachineVision
     private Node generateRandomNode(Node[][] myMap, ArrayList<Node> allNodesInGraph, Robot robot)
     {
         Random random = new Random();
+        Random random2 = new Random();
         // The nextInt parameter is exclusive, and this is what we want.
         int solX = random.nextInt(RobotUtils.gridDimensionX - 1);
-        int solY = random.nextInt(RobotUtils.gridDimensionY - 1);
+        int solY = random2.nextInt(RobotUtils.gridDimensionY - 1);
         while (solX == 0)
         {
             solX = random.nextInt(RobotUtils.gridDimensionX - 1);
         }
         while (solY == 0)
         {
-            solY = random.nextInt(RobotUtils.gridDimensionY - 1);
+            solY = random2.nextInt(RobotUtils.gridDimensionY - 1);
         }
         System.out.println("SolX: " + solX);
         System.out.println("SolY: " + solY);
@@ -300,9 +301,10 @@ public class MachineVision
     {
         // Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI + 180
         // Just use node.getLocation I guess
-        // absolute value?
-        double angle = Math.atan2(Math.abs(randomNode.getLocation().getY() - currentNode.getLocation().getY()),
-                Math.abs(randomNode.getLocation().getX() - currentNode.getLocation().getX()));
+        // absolute value? NO
+        double angle = Math.atan2((randomNode.getLocation().getY() - currentNode.getLocation().getY()),
+                (randomNode.getLocation().getX() - currentNode.getLocation().getX()));
+        angle = Math.toDegrees(angle);
         // Boundary checking? TECHNICALLY, the closest one shouldn't be sending it out of bounds.
         System.out.println("Examining node at location " + currentNode.getLocation().toString());
         System.out.println("Random node at location " + randomNode.getLocation().toString());

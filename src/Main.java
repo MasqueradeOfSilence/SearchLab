@@ -19,6 +19,7 @@ public class Main
         String w = connection.sendWhere();
         Decoder.updateTerrainField(robot, w);
         robot.calculatePath();
+
         while(true)
         {
             String s = connection.sendWhere();

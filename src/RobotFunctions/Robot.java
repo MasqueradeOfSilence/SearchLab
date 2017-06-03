@@ -25,6 +25,7 @@ public class Robot
     {
         optimalPath = new ArrayList<>();
         map = new TerrainMap();
+        vision=new MachineVision();
     }
 
     /**
@@ -34,6 +35,11 @@ public class Robot
     public void calculatePath()
     {
         optimalPath = vision.computeOptimalPathForBranchandBound(this);
+        for (Node n:optimalPath)
+        {
+            System.out.println(n.toString());
+        }
+        System.exit(0);
     }
 
     /**

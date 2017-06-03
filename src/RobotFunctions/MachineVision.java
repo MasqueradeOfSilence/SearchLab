@@ -115,7 +115,7 @@ public class MachineVision
                 }
             }
             addChildren(priorityque, current.getLocation(),current, r.getMap());
-
+            priorityque.remove(current);
 
         }
         return bfsf.getPathVisited();

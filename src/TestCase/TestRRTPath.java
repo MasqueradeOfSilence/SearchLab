@@ -66,6 +66,7 @@ public class TestRRTPath extends TestCase
 
         auntBooty.calculateTerrainMap(obstacles);
         goal.setLocation(new Coordinate(RobotUtils.gridDimensionX - 1, RobotUtils.gridDimensionY - 1));
+        System.out.println("The goal is " + goal.getLocation().toString());
         assertTrue(vision.computePathForRRT(auntBooty, goal).size() > 0);
     }
 }

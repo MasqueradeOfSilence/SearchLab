@@ -139,6 +139,7 @@ public class MachineVision
                     || myMap[x + 1][y + 1].equals(goalNode)
                     || myMap[x + 1][y - 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 1");
                 return true;
             }
             return false;
@@ -151,6 +152,7 @@ public class MachineVision
                     || myMap[x + 1][y + 1].equals(goalNode)
                     || myMap[x - 1][y + 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 2");
                 return true;
             }
             return false;
@@ -163,6 +165,7 @@ public class MachineVision
                     || myMap[x - 1][y + 1].equals(goalNode)
                     || myMap[x - 1][y - 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 3");
                 return true;
             }
             return false;
@@ -175,6 +178,7 @@ public class MachineVision
                     || myMap[x + 1][y - 1].equals(goalNode)
                     || myMap[x - 1][y - 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 4");
                 return true;
             }
             return false;
@@ -185,6 +189,7 @@ public class MachineVision
             if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
                     || myMap[x + 1][y + 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 5");
                 return true;
             }
             return false;
@@ -196,6 +201,7 @@ public class MachineVision
                     || myMap[x - 1][y].equals(goalNode) || myMap[x][y - 1].equals(goalNode)
                     || myMap[x - 1][y - 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 6");
                 return true;
             }
             return false;
@@ -207,6 +213,7 @@ public class MachineVision
                     || myMap[x - 1][y].equals(goalNode)
                     || myMap[x - 1][y + 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 7");
                 return true;
             }
             return false;
@@ -218,6 +225,7 @@ public class MachineVision
                     || myMap[x][y - 1].equals(goalNode)
                     || myMap[x + 1][y - 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 8");
                 return true;
             }
             return false;
@@ -231,6 +239,7 @@ public class MachineVision
                     || myMap[x + 1][y - 1].equals(goalNode) || myMap[x - 1][y + 1].equals(goalNode)
                     || myMap[x - 1][y - 1].equals(goalNode))
             {
+                System.out.println("I have reached the goal 9");
                 return true;
             }
         }
@@ -259,8 +268,18 @@ public class MachineVision
     {
         Random random = new Random();
         // The nextInt parameter is exclusive, and this is what we want.
-        int solX = random.nextInt(RobotUtils.gridDimensionX);
-        int solY = random.nextInt(RobotUtils.gridDimensionY);
+        int solX = random.nextInt(RobotUtils.gridDimensionX - 1);
+        int solY = random.nextInt(RobotUtils.gridDimensionY - 1);
+        while (solX == 0)
+        {
+            solX = random.nextInt(RobotUtils.gridDimensionX - 1);
+        }
+        while (solY == 0)
+        {
+            solY = random.nextInt(RobotUtils.gridDimensionY - 1);
+        }
+        System.out.println("SolX: " + solX);
+        System.out.println("SolY: " + solY);
         Node res = myMap[solX][solY];
         // The only way to use .contains is to have an equals method in the node class.
         if (collision(res, allNodesInGraph))
@@ -287,7 +306,11 @@ public class MachineVision
         // Boundary checking? TECHNICALLY, the closest one shouldn't be sending it out of bounds.
         System.out.println("Examining node at location " + currentNode.getLocation().toString());
         System.out.println("Random node at location " + randomNode.getLocation().toString());
-        System.out.println("Angle is " + angle);
+        if (angle < 0)
+        {
+            angle += 360; // since atan2 generates only between -180 and 180 degrees
+        }
+        System.out.println("Angle (normalized): " + angle);
         if (angle < 45 || (angle <= 360 && angle > 315))
         {
             return myMap[(int) Math.round(currentNode.getLocation().getX()) + 1]
@@ -358,7 +381,7 @@ public class MachineVision
             Node randomNode;
             while ((randomNode = generateRandomNode(myMap.getMyMap(), allNodesInGraph, r)) == null)
             {
-                // Just keep generating it until it's not null anymore
+                // Just keep generating it until it's not null anymore, so it's not in the forbidden zone
             }
             // THEN DO STEP 4...
             Node newNode = chooseNewNode(myMap.getMyMap(), currentNode, randomNode);
@@ -366,14 +389,18 @@ public class MachineVision
             {
                 newNode = chooseNewNode(myMap.getMyMap(), currentNode, randomNode);
             }
+            // The chooseNewNode should not be called if the goal is reached
             newNode.getPathVisited().addAll(currentNode.getPathVisited());
             newNode.getPathVisited().add(currentNode);
             allNodesInGraph.add(newNode);
             currentNode = newNode;
+            System.out.println("The current node is now at " + currentNode.getLocation().toString());
+            // The newNode is NOT generated properly.
         }
         // This is the beginning of the end
         Node endNode = currentNode;
         solutionPath = endNode.getPathVisited();
+        // This actually isn't quite correct. We need to add the GOAL NODE.
         return solutionPath;
     }
 }

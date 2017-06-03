@@ -2,6 +2,8 @@ package Map;
 
 import RobotFunctions.RobotUtils;
 
+import java.util.Arrays;
+
 /**
  * Created by williamjones on 5/15/17.
  * Terrain Map: Map of the surrounding terrain.
@@ -91,7 +93,29 @@ public class TerrainMap
 
     public void setMyMap(Node[][] myMap)
     {
+        if (myMap == null)
+        {
+            myMap = new Node[RobotUtils.gridDimensionX][RobotUtils.gridDimensionY];
+        }
         this.myMap = myMap;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TerrainMap that = (TerrainMap) o;
+
+        return Arrays.deepEquals(myMap, that.myMap);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Arrays.deepHashCode(myMap);
+    }
+
     //</editor-fold>
 }

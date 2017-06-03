@@ -29,7 +29,71 @@ public class Node
     public Node()
     {
         type = REGULAR;
+        pathVisited = new ArrayList<>();
     }
+
+    //<editor-fold desc="Equals/HashCode - Do NOT delete">
+    /**
+     * The equals method is necessary for calling arrayList.contains().
+     *  Please do NOT delete this!
+     * @param o the object we are comparing to
+     * @return true if equal; false otherwise
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node node = (Node) o;
+
+        if (Double.compare(node.degree, degree) != 0) return false;
+        if (location != null ? !location.equals(node.location) : node.location != null) return false;
+        if (topLeft != null ? !topLeft.equals(node.topLeft) : node.topLeft != null) return false;
+        if (topRight != null ? !topRight.equals(node.topRight) : node.topRight != null) return false;
+        if (bottomLeft != null ? !bottomLeft.equals(node.bottomLeft) : node.bottomLeft != null) return false;
+        if (bottomRight != null ? !bottomRight.equals(node.bottomRight) : node.bottomRight != null) return false;
+        if (pathVisited != null ? !pathVisited.equals(node.pathVisited) : node.pathVisited != null) return false;
+        return type == node.type;
+    }
+
+    /**
+     * Intellij just wanted to generate this, so I said sure son
+     * @return a hash code
+     */
+    @Override
+    public int hashCode()
+    {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(degree);
+        result = (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (topLeft != null ? topLeft.hashCode() : 0);
+        result = 31 * result + (topRight != null ? topRight.hashCode() : 0);
+        result = 31 * result + (bottomLeft != null ? bottomLeft.hashCode() : 0);
+        result = 31 * result + (bottomRight != null ? bottomRight.hashCode() : 0);
+        result = 31 * result + (pathVisited != null ? pathVisited.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Node{" +
+                "degree=" + degree +
+                ", location=" + location +
+                ", topLeft=" + topLeft +
+                ", topRight=" + topRight +
+                ", bottomLeft=" + bottomLeft +
+                ", bottomRight=" + bottomRight +
+                ", pathVisited=" + pathVisited +
+                ", type=" + type +
+                '}';
+    }
+
+    //</editor-fold>
 
     //<editor-fold desc="Getters/Setters! :D">
     public double getDegree()

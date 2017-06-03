@@ -86,6 +86,10 @@ public class Robot
                 for (int q = 0; q < map.getMyMap()[p].length; q++)
                 {
                     Node current = map.getMyMap()[p][q];
+                    if (current == null)
+                    {
+                        System.out.println("current is null");
+                    }
                     current.setLocation(new Coordinate(p, q));
 
                     if (areCoordinatesInsideOfObstacle(p, q, currentObstacle)
@@ -125,6 +129,12 @@ public class Robot
     {
         return map;
     }
+
+    public void setMap(TerrainMap map)
+    {
+        this.map = map;
+    }
+
     public Coordinate getCurrentLocation()
     {
         return currentLocation;

@@ -40,7 +40,6 @@ public class TestTerrainMapSetup extends TestCase
      *  and that everything is printed out properly.
      * @throws Exception if any of the asserts fail
      */
-    @Test
     public void testHardcodedMap() throws Exception
     {
         System.out.println("Hardcoded map test case...\n");

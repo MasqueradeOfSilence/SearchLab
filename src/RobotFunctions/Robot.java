@@ -65,12 +65,17 @@ public class Robot
         Coordinate nodeUpperLeft = RobotUtils.convertFromPixeltoNode(upperLeft);
         Coordinate nodeLowerLeft = RobotUtils.convertFromPixeltoNode(lowerLeft);
 
-        boolean isInside = (x == nodeCenter.getX() && y == nodeCenter.getY())
-                || (x == nodeLowerRight.getX() && y == nodeLowerRight.getY())
-                || (x == nodeUpperRight.getX() && y == nodeUpperRight.getY())
-                || (x == nodeUpperLeft.getX() && y == nodeUpperLeft.getY())
-                || (x == nodeLowerLeft.getX() && y == nodeLowerLeft.getY());
+        boolean isInside =
+                (x == Math.round(nodeCenter.getX()) && y == Math.round(nodeCenter.getY()))
+                || (x == Math.round(nodeLowerRight.getX()) && y == Math.round(nodeLowerRight.getY()))
+                || (x == Math.round(nodeUpperRight.getX()) && y == Math.round(nodeUpperRight.getY()))
+                || (x == Math.round(nodeUpperLeft.getX()) && y == Math.round(nodeUpperLeft.getY()))
+                || (x == Math.round(nodeLowerLeft.getX()) && y == Math.round(nodeLowerLeft.getY()));
 
+        if(isInside)
+        {
+            System.out.println("THIS WORKS");
+        }
         return isInside;
     }
 
@@ -84,9 +89,11 @@ public class Robot
      */
     public void calculateTerrainMap(ArrayList<Obstacle> obstacles)
     {
+        System.out.println("the size of the obstacles is "+obstacles.size());
         // Any nodes that are inside of the obstacle's corners become obstacle type
         for(Obstacle currentObstacle : obstacles)
         {
+            System.out.println(currentObstacle.toString());
             for (int p = 0; p < map.getMyMap().length; p++)
             {
                 for (int q = 0; q < map.getMyMap()[p].length; q++)
@@ -98,10 +105,16 @@ public class Robot
                     }
                     current.setLocation(new Coordinate(p, q));
 
-                    if (areCoordinatesInsideOfObstacle(p, q, currentObstacle)
-                            && current.getType() != RobotUtils.TYPE.GOAL)
+                    if (areCoordinatesInsideOfObstacle(p, q, currentObstacle))
+                         //   && current.getType() != RobotUtils.TYPE.GOAL)
                     {
-                        current.setType(RobotUtils.TYPE.OBSTACLE);
+                        if(currentObstacle.getType().equals("goal"))
+                        {
+                            current.setType(RobotUtils.TYPE.GOAL);
+                        }
+                        else {
+                            current.setType(RobotUtils.TYPE.OBSTACLE);
+                        }
                     }
                     // Otherwise, it stays with either goal or regular.
                 }

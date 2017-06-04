@@ -10,6 +10,21 @@ import Map.Coordinate;
 public class Obstacle
 {
 
+    @Override
+    public String toString() {
+        return "Obstacle{" +
+                "type='" + type + '\'' +
+                ", center=" + center +
+                ", corner1=" + corner1 +
+                ", corner2=" + corner2 +
+                ", corner3=" + corner3 +
+                ", corner4=" + corner4 +
+                ", orientation=" + orientation +
+                ", id=" + id +
+                ", radius=" + radius +
+                '}';
+    }
+
     public String getType() {
         return type;
     }

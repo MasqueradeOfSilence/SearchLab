@@ -24,6 +24,7 @@ public class Node
      * All the previous nodes up to this point in our current path
      */
     private ArrayList<Node> pathVisited;
+
     private RobotUtils.TYPE type;
 
     public Node()
@@ -32,6 +33,15 @@ public class Node
         pathVisited = new ArrayList<>();
     }
 
+
+    public void printmylist()
+    {
+
+        for(Node n:pathVisited)
+        {
+            System.out.println(n.toString());
+        }
+    }
     //<editor-fold desc="Equals/HashCode - Do NOT delete">
     /**
      * The equals method is necessary for calling arrayList.contains().
@@ -88,7 +98,6 @@ public class Node
                 ", topRight=" + topRight +
                 ", bottomLeft=" + bottomLeft +
                 ", bottomRight=" + bottomRight +
-                ", pathVisited=" + pathVisited +
                 ", type=" + type +
                 '}';
     }

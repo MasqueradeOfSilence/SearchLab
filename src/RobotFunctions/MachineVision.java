@@ -16,48 +16,92 @@ import java.util.Random;
  */
 public class MachineVision
 {
+
+    public boolean doIcontainduplicates(Node check, Node adding)
+    {
+        for (Node n: adding.getPathVisited())
+        {
+            if(check.getPathVisited().contains(n))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void addChildren(ArrayList<Node>priotrityque,Coordinate location, Node updating,  TerrainMap terrainMap)
     {
+        if(!updating.getPathVisited().contains(updating)) {
+            updating.getPathVisited().add(updating);
+        }
         Node add;
-        add=terrainMap.getMyMap()[(int)location.getX()][(int)location.getY()-1];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getY()!=0) {
+            add = terrainMap.getMyMap()[(int) location.getX()][(int) location.getY() - 1];
+           // System.out.println("I add "+add.getLocation().toString());
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()][(int)location.getY()+1];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getY()!=terrainMap.getMyMap()[0].length-1) {
+            add = terrainMap.getMyMap()[(int) location.getX()][(int) location.getY() + 1];
+           // System.out.println("I add "+add.getLocation().toString());
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()+1][(int)location.getY()];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getX()!=terrainMap.getMyMap().length-1) {
+            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY()];
+            //System.out.println("I add "+add.getLocation().toString());
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()-1][(int)location.getY()];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getX()!=0) {
+            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY()];
+           // System.out.println("I add "+add.getLocation().toString());
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()-1][(int)location.getY()-1];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getX()!=0&&location.getY()!=0) {
+            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY() - 1];
+            //System.out.println("I add "+add.getLocation().toString());
+
+            if (doIcontainduplicates(add, updating)){
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()+1][(int)location.getY()+1];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getX()!=terrainMap.getMyMap().length-1&&location.getY()!=terrainMap.getMyMap()[0].length-1) {
+            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY() + 1];
+            //System.out.println("I add "+add.getLocation().toString());
+
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()+1][(int)location.getY()-1];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getX()!=terrainMap.getMyMap().length-1&&location.getY()!=0) {
+            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY() - 1];
+           // System.out.println("I add "+add.getLocation().toString());
+
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
-        add=terrainMap.getMyMap()[(int)location.getX()-1][(int)location.getY()+1];
-        if(!add.getPathVisited().contains(add)) {
-            add.getPathVisited().addAll(updating.getPathVisited());
-            priotrityque.add(add);
+        if(location.getX()!=0&&location.getY()!=terrainMap.getMyMap()[0].length-1) {
+            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY() + 1];
+           // System.out.println("I add "+add.getLocation().toString());
+
+            if (doIcontainduplicates(add, updating)) {
+                add.getPathVisited().addAll(updating.getPathVisited());
+                priotrityque.add(add);
+            }
         }
     }
     public Node getHighestPrioirity(ArrayList<Node>prioirtyqueue)
@@ -82,9 +126,11 @@ public class MachineVision
         ArrayList<Node>priorityque=new ArrayList<>();
         priorityque.add(r.getMap().getMyMap()[(int)c.getX()][(int)c.getY()]);  //block back tracking
         Node bfsf=null;
+       System.out.println(r.getMap().toString());
         while(priorityque.size()>0)
         {
             Node current=getHighestPrioirity(priorityque);
+            System.out.println(current.getPathVisited().size());
             if(current.getType()== RobotUtils.TYPE.OBSTACLE)
             {
                 priorityque.remove(current);

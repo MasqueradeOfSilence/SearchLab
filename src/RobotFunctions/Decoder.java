@@ -98,5 +98,6 @@ public class Decoder
         double b = orientationCoordinates.getDouble(1);
         robot.setOrientation(new Coordinate(a, b));
         robot.setCurrentLocation(new Coordinate((int)x, (int)y));
+
     }
 }

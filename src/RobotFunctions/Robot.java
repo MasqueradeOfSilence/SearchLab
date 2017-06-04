@@ -35,12 +35,21 @@ public class Robot
     public void calculatePath()
     {
         optimalPath = vision.computeOptimalPathForBranchandBound(this);
-        for (Node n:optimalPath)
+        for (int i=0; i<optimalPath.size(); i++)
         {
-            System.out.println(n.toString());
+            if(i!=optimalPath.size()-1) {
+                optimalPath.get(i).setDegree(RobotUtils.CalculateAngle(optimalPath.get(i), optimalPath.get(i + 1)));
+            }
+            System.out.println(optimalPath.get(i).toString());
         }
-        System.exit(0);
+       // System.exit(0);
     }
+    public  RobotUtils.TYPE GetMeWhereIAm()
+    {
+        Coordinate location=RobotUtils.convertFromPixeltoNode(currentLocation);
+        return map.getMyMap()[(int)location.getX()][(int)location.getY()].getType();
+    }
+
 
     /**
      * @author Alex
@@ -134,6 +143,8 @@ public class Robot
         {
             currentAngle += 360;
         }
+        System.out.println(currentAngle);
+
         // Robot needs to face the vector angle
 
         double degreefromMap = -1;
@@ -162,6 +173,12 @@ public class Robot
     public void setCurrentLocation(Coordinate currentLocation)
     {
         this.currentLocation = currentLocation;
+        if(RobotUtils.startoff) {
+            Coordinate c = RobotUtils.convertFromPixeltoNode(currentLocation);
+            map.getMyMap()[(int)c.getX()][(int)c.getY()].setType(RobotUtils.TYPE.ROBOTSTARTLOCATION);
+            RobotUtils.startoff=false;
+        }
+
     }
 
     public Coordinate getOrientation()
@@ -173,5 +190,4 @@ public class Robot
     {
         this.orientation = orientation;
     }
-    //</editor-fold>
 }

@@ -1,5 +1,6 @@
 import RobotFunctions.Decoder;
 import RobotFunctions.Robot;
+import RobotFunctions.RobotUtils;
 import TelnetFunctions.Telnet;
 
 import java.io.IOException;
@@ -28,7 +29,23 @@ public class Main
            {
                continue;
            }
-            Decoder.updateRobot(robot, s);
+           Decoder.updateRobot(robot, s);
+           robot.rotateMe(connection);
+           /*
+           RobotUtils.TYPE mytype=robot.GetMeWhereIAm();
+           if(mytype==RobotUtils.TYPE.GOAL)
+            {
+                connection.sendSpeed(0,0);
+                break;
+            }
+            else if (mytype==RobotUtils.TYPE.REGULAR||mytype==RobotUtils.TYPE.ROBOTSTARTLOCATION){
+               connection.sendSpeed(3, 3);
+           }
+           else
+           {
+               System.out.println("OH NO IN AN OBSTACLE!");
+           }
+           */
            // robot will follow what the list says to do
 
            // if speed 0 0, stop the robot

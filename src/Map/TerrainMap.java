@@ -75,6 +75,9 @@ public class TerrainMap
                     case GOAL:
                         sb.append("_GOAL ");
                         break;
+                    case ROBOTSTARTLOCATION:
+                        sb.append("START ");
+                        break;
                     default:
                         sb.append("ERROR ");
                         break;

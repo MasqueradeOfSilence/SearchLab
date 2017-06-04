@@ -21,7 +21,7 @@ public class MachineVision
     {
         for (Node n: adding.getPathVisited())
         {
-            if(check.getPathVisited().contains(n))
+            if(check.getPathVisited().contains(n)||check.getType()== RobotUtils.TYPE.OBSTACLE)
             {
                 return false;
             }
@@ -106,14 +106,15 @@ public class MachineVision
     }
     public Node getHighestPrioirity(ArrayList<Node>prioirtyqueue)
     {
-        int largestPath=-1;
+        int smallest=Integer.MAX_VALUE;
         Node returning=null;
         for(Node n:prioirtyqueue)
         {
-            if(n.getPathVisited().size()>largestPath)
+            if(n.getPathVisited().size()<smallest)
             {
                 returning=n;
-                largestPath=n.getPathVisited().size();
+                smallest=n.getPathVisited().size();
+
             }
         }
         return returning;

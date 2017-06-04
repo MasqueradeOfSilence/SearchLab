@@ -46,8 +46,17 @@ public class TestRRTPath extends TestCase
 
     public void testBasic() throws Exception
     {
-        Node goal = new Node();
         TerrainMap terrainMap = new TerrainMap();
+        for (int i = 0; i < terrainMap.getMyMap().length; i++)
+        {
+            for (int j = 0; j < terrainMap.getMyMap()[i].length; j++)
+            {
+                if (i > 33 && j < 24)
+                {
+                    terrainMap.getMyMap()[i][j].setType(RobotUtils.TYPE.GOAL);
+                }
+            }
+        }
         auntBooty.setMap(terrainMap);
         assertNotNull(auntBooty.getMap());
         assertNotNull(auntBooty.getMap().getMyMap());
@@ -57,7 +66,7 @@ public class TestRRTPath extends TestCase
         assertNotNull(terrainMap.getMyMap()[0][0]);
         assertNotNull(auntBooty.getMap().getMyMap()[0][0]);
 
-        auntBooty.setCurrentLocation(new Coordinate(0, 0));
+        auntBooty.setCurrentLocation(new Coordinate(0, 19));
         ArrayList<Obstacle> obstacles = new ArrayList<>();
         obstacles.add(new Obstacle(new Coordinate(609, 320.75), new Coordinate(553, 327),
                 new Coordinate(601, 267), new Coordinate(666, 314), new Coordinate(616, 375),
@@ -65,8 +74,8 @@ public class TestRRTPath extends TestCase
                 new Coordinate(553, 327)), "obstacle"));
 
         auntBooty.calculateTerrainMap(obstacles);
-        goal.setLocation(new Coordinate(RobotUtils.gridDimensionX - 1, RobotUtils.gridDimensionY - 1));
-        System.out.println("The goal is " + goal.getLocation().toString());
-        assertTrue(vision.computePathForRRT(auntBooty, goal).size() > 0);
+        ArrayList<Node> result = vision.computePathForRRT(auntBooty);
+        assertTrue(result.size() > 0);
+        System.out.println("The size is: " + result.size());
     }
 }

@@ -5,7 +5,9 @@ import Map.Coordinate;
 import Map.Node;
 import Map.TerrainMap;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -122,287 +124,256 @@ public class MachineVision
     }
 
     /**
-     * Function to determine if we can reach the goal
-     *  from our current node's location.
-     * @return true if we can, false otherwise.
+     * Ascertains if the tile we are checking is out of bounds.
      */
-    private boolean goalReachable(Node current, Node[][] myMap, Node goalNode)
+    private boolean outOfBounds(int xFactor, int yFactor)
     {
-        int x = (int) Math.round(current.getLocation().getX());
-        int y = (int) Math.round(current.getLocation().getY());
-
-        // x too low, y fine: have nothing with x - 1
-        if (x - 1 < 1 && (y + 1 < RobotUtils.gridDimensionY && y - 1 >= 0))
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
-                    || myMap[x][y - 1].equals(goalNode)
-                    || myMap[x + 1][y + 1].equals(goalNode)
-                    || myMap[x + 1][y - 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 1");
-                return true;
-            }
-            return false;
-        }
-        // x fine, y too low: have nothing with y - 1. delete 3 each time.
-        else if ((x + 1 < RobotUtils.gridDimensionX && x - 1 >= 0) && y - 1 < 1)
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
-                    || myMap[x - 1][y].equals(goalNode)
-                    || myMap[x + 1][y + 1].equals(goalNode)
-                    || myMap[x - 1][y + 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 2");
-                return true;
-            }
-            return false;
-        }
-        // x too high; y fine: have nothing with x + 1.
-        else if (x + 1 >= RobotUtils.gridDimensionX && (y + 1 < RobotUtils.gridDimensionY && y - 1 >= 0))
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
-                    || myMap[x - 1][y].equals(goalNode) || myMap[x][y - 1].equals(goalNode)
-                    || myMap[x - 1][y + 1].equals(goalNode)
-                    || myMap[x - 1][y - 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 3");
-                return true;
-            }
-            return false;
-        }
-        // x fine; y too high: get rid of y + 1.
-        else if ((x + 1 < RobotUtils.gridDimensionX && x - 1 >= 0) && y >= RobotUtils.gridDimensionY)
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode)
-                    || myMap[x - 1][y].equals(goalNode) || myMap[x][y - 1].equals(goalNode)
-                    || myMap[x + 1][y - 1].equals(goalNode)
-                    || myMap[x - 1][y - 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 4");
-                return true;
-            }
-            return false;
-        }
-        // x too low, y too low: get rid of x - 1 and y - 1.
-        else if (x - 1 < 1 && y - 1 < 1)
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
-                    || myMap[x + 1][y + 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 5");
-                return true;
-            }
-            return false;
-        }
-        // x too high, y too high: get rid of x + 1 and y + 1.
-        else if (x + 1 >= RobotUtils.gridDimensionX && y + 1 >= RobotUtils.gridDimensionY)
-        {
-            if (myMap[x][y].equals(goalNode)
-                    || myMap[x - 1][y].equals(goalNode) || myMap[x][y - 1].equals(goalNode)
-                    || myMap[x - 1][y - 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 6");
-                return true;
-            }
-            return false;
-        }
-        // x too high, y too low: get rid of x + 1 and y - 1
-        else if (x + 1 >= RobotUtils.gridDimensionX && y - 1 < 1)
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
-                    || myMap[x - 1][y].equals(goalNode)
-                    || myMap[x - 1][y + 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 7");
-                return true;
-            }
-            return false;
-        }
-        // x too low, y too high: get rid of x - 1 and y + 1
-        else if (x - 1 < 1 && y + 1 >= RobotUtils.gridDimensionY)
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode)
-                    || myMap[x][y - 1].equals(goalNode)
-                    || myMap[x + 1][y - 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 8");
-                return true;
-            }
-            return false;
-        }
-        // both are OK
-        else
-        {
-            if (myMap[x][y].equals(goalNode) || myMap[x + 1][y].equals(goalNode) || myMap[x][y + 1].equals(goalNode)
-                    || myMap[x - 1][y].equals(goalNode) || myMap[x][y - 1].equals(goalNode)
-                    || myMap[x + 1][y + 1].equals(goalNode)
-                    || myMap[x + 1][y - 1].equals(goalNode) || myMap[x - 1][y + 1].equals(goalNode)
-                    || myMap[x - 1][y - 1].equals(goalNode))
-            {
-                System.out.println("I have reached the goal 9");
-                return true;
-            }
-        }
-        return false;
+        return xFactor < 0 || xFactor >= RobotUtils.gridDimensionX
+                || yFactor < 0 || yFactor >= RobotUtils.gridDimensionY;
     }
 
     /**
-     * Collision detection
-     * @param res the resultant node
-     * @param allNodesInGraph all already existing nodes
-     * @return true if it will either collide with a node that's
-     *  already in the graph OR if the node is an obstacle; false
-     *  otherwise.
+     * If we are close enough to the goal to stop.
+     * @param currentTile where we are currently
+     * @param myMap the 2D array representing the map
+     * @return true if we can reach the goal in one step or less;
+     *  false otherwise.
+     *
+     * @author Alex
      */
-    private boolean collision(Node res, ArrayList<Node> allNodesInGraph)
+    private Node goalReachedOrReachable(Node currentTile, Node[][] myMap)
     {
-        return allNodesInGraph.contains(res) || res.getType() == RobotUtils.TYPE.OBSTACLE;
+        if (currentTile.getType() == RobotUtils.TYPE.GOAL)
+        {
+            return currentTile;
+        }
+        int x = (int) Math.round(currentTile.getLocation().getX());
+        int y = (int) Math.round(currentTile.getLocation().getY());
+
+        if (!outOfBounds(x - 1, y + 1)
+                && myMap[x - 1][y + 1].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x - 1][y + 1];
+        }
+        if (!outOfBounds(x, y + 1) && myMap[x][y + 1].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x][y + 1];
+        }
+        if (!outOfBounds(x + 1, y + 1) && myMap[x + 1][y + 1].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x + 1][y + 1];
+        }
+        if (!outOfBounds(x - 1, y) && myMap[x - 1][y].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x - 1][y];
+        }
+        if (!outOfBounds(x + 1, y) && myMap[x + 1][y].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x + 1][y];
+        }
+        if (!outOfBounds(x - 1, y - 1) && myMap[x - 1][y - 1].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x - 1][y - 1];
+        }
+        if (!outOfBounds(x, y - 1) && myMap[x][y - 1].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x][y - 1];
+        }
+        if (!outOfBounds(x + 1, y - 1) && myMap[x + 1][y - 1].getType() == RobotUtils.TYPE.GOAL)
+        {
+            return myMap[x + 1][y - 1];
+        }
+        return null;
+    }
+
+    private boolean collidesWithObstacle(Node current)
+    {
+        return current.getType() == RobotUtils.TYPE.OBSTACLE;
     }
 
     /**
-     * Selects a random node in the map.
-     * @param myMap the map
-     * @return the random node, OR null if it has a collision
+     * Generates random node in the graph.
      */
-    private Node generateRandomNode(Node[][] myMap, ArrayList<Node> allNodesInGraph, Robot robot)
+    private Node generateRandomPoint(Node[][] myMap, ArrayList<Node> searchGraph)
     {
-        Random random = new Random();
-        Random random2 = new Random();
-        // The nextInt parameter is exclusive, and this is what we want.
-        int solX = random.nextInt(RobotUtils.gridDimensionX - 1);
-        int solY = random2.nextInt(RobotUtils.gridDimensionY - 1);
-        while (solX == 0)
+        Random rand1 = new Random();
+        Random rand2 = new Random();
+        boolean stop = false;
+        Node toReturn = null;
+
+        while (!stop)
         {
-            solX = random.nextInt(RobotUtils.gridDimensionX - 1);
+            int x = rand1.nextInt(RobotUtils.gridDimensionX);
+            int y = rand2.nextInt(RobotUtils.gridDimensionY);
+            Node temp = myMap[x][y];
+            if (!collidesWithObstacle(temp) && !searchGraph.contains(temp))
+            {
+                toReturn = temp;
+                stop = true;
+            }
         }
-        while (solY == 0)
+        return toReturn;
+    }
+
+    /**
+     * Computes the next node (closest one to the one with the smallest distance)
+     */
+    private Node getNextNodeInGraph(NodeDistance theSmallest, Node[][] myMap, Node randomPoint)
+    {
+        Node smallest = theSmallest.getNode();
+        ArrayList<Node> contestants = new ArrayList<>();
+        int x = (int) Math.round(smallest.getLocation().getX());
+        int y = (int) Math.round(smallest.getLocation().getY());
+
+        if (!outOfBounds(x - 1, y + 1) && !collidesWithObstacle(myMap[x - 1][y + 1]))
         {
-            solY = random2.nextInt(RobotUtils.gridDimensionY - 1);
+            contestants.add(myMap[x - 1][y + 1]);
         }
-        System.out.println("SolX: " + solX);
-        System.out.println("SolY: " + solY);
-        Node res = myMap[solX][solY];
-        // The only way to use .contains is to have an equals method in the node class.
-        if (collision(res, allNodesInGraph))
+        if (!outOfBounds(x, y + 1) && !collidesWithObstacle(myMap[x][y + 1]))
+        {
+            contestants.add(myMap[x][y + 1]);
+        }
+        if (!outOfBounds(x + 1, y + 1) && !collidesWithObstacle(myMap[x + 1][y + 1]))
+        {
+            contestants.add(myMap[x + 1][y + 1]);
+        }
+        if (!outOfBounds(x - 1, y) && !collidesWithObstacle(myMap[x - 1][y]))
+        {
+            contestants.add(myMap[x - 1][y]);
+        }
+        if (!outOfBounds(x + 1, y) && !collidesWithObstacle(myMap[x + 1][y]))
+        {
+            contestants.add(myMap[x + 1][y]);
+        }
+        if (!outOfBounds(x - 1, y - 1) && !collidesWithObstacle(myMap[x - 1][y - 1]))
+        {
+            contestants.add(myMap[x - 1][y - 1]);
+        }
+        if (!outOfBounds(x, y - 1) && !collidesWithObstacle(myMap[x][y - 1]))
+        {
+            contestants.add(myMap[x][y - 1]);
+        }
+        if (!outOfBounds(x + 1, y - 1) && !collidesWithObstacle(myMap[x + 1][y - 1]))
+        {
+            contestants.add(myMap[x + 1][y - 1]);
+        }
+        if (contestants.size() == 0)
         {
             return null;
         }
-        return res;
+
+        ArrayList<NodeDistance> nodeDistances = new ArrayList<>();
+        for (Node thisOne : contestants)
+        {
+            NodeDistance nodeDistance = new NodeDistance(thisOne, randomPoint);
+            nodeDistances.add(nodeDistance);
+        }
+
+        // Get whatever node distance is closest to the random one
+        NodeDistance theTiniest = nodeDistances.get(0);
+        for (int i = 1; i < nodeDistances.size(); i++)
+        {
+            NodeDistance cur = nodeDistances.get(i);
+            if (cur.getDistance() < theTiniest.getDistance())
+            {
+                theTiniest = cur;
+            }
+        }
+
+        return theTiniest.getNode();
     }
 
     /**
-     * Expecting that the value angle will not take on a negative value.
-     * @param myMap the map
-     * @param currentNode the node
-     * @param randomNode the qRAND node
-     * @return the new node, one immediately adjacent
+     * Does the searchGraph have a goal in it?
+     * @param searchGraph
+     * @return
      */
-    private Node chooseNewNode(Node[][] myMap, Node currentNode, Node randomNode)
+    private Node searchGraphHasGoal(ArrayList<Node> searchGraph)
     {
-        // Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI + 180
-        // Just use node.getLocation I guess
-        // absolute value? NO
-        double angle = Math.atan2((randomNode.getLocation().getY() - currentNode.getLocation().getY()),
-                (randomNode.getLocation().getX() - currentNode.getLocation().getX()));
-        angle = Math.toDegrees(angle);
-        // Boundary checking? TECHNICALLY, the closest one shouldn't be sending it out of bounds.
-        System.out.println("Examining node at location " + currentNode.getLocation().toString());
-        System.out.println("Random node at location " + randomNode.getLocation().toString());
-        if (angle < 0)
+        for (int i = 0; i < searchGraph.size(); i++)
         {
-            angle += 360; // since atan2 generates only between -180 and 180 degrees
-        }
-        System.out.println("Angle (normalized): " + angle);
-        if (angle < 45 || (angle <= 360 && angle > 315))
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX()) + 1]
-                    [(int) Math.round(currentNode.getLocation().getY())];
-        }
-        else if (angle == 45)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX()) + 1]
-                    [(int) Math.round(currentNode.getLocation().getY()) + 1];
-        }
-        else if (angle > 45 && angle < 135)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX())]
-                    [(int) Math.round(currentNode.getLocation().getY()) + 1];
-        }
-        else if (angle == 135)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX()) - 1]
-                    [(int) Math.round(currentNode.getLocation().getY()) + 1];
-        }
-        else if (angle > 135 && angle < 225)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX()) - 1]
-                    [(int) Math.round(currentNode.getLocation().getY())];
-        }
-        else if (angle == 225)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX()) - 1]
-                    [(int) Math.round(currentNode.getLocation().getY()) - 1];
-        }
-        else if (angle > 225 && angle < 315)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX())]
-                    [(int) Math.round(currentNode.getLocation().getY()) - 1];
-            // it shouldn't be getting -1 here, because it shouldn't compute an angle that's out of bounds.
-        }
-        else if (angle == 315)
-        {
-            return myMap[(int) Math.round(currentNode.getLocation().getX()) + 1]
-                    [(int) Math.round(currentNode.getLocation().getY()) - 1];
+            if (searchGraph.get(i).getType() == RobotUtils.TYPE.GOAL)
+            {
+                return searchGraph.get(i);
+            }
         }
         return null;
     }
 
     /**
      * RRT algorithm for finding a path.
-     *  Just FYI: the nature of this algorithm means
-     *  that it will most likely produce a twisted
-     *  path that is definitely not optimal. However,
-     *  the primary advantage is the extremely high probability
-     *  of SOME path being found.
+     * Non-optimal, but it is guaranteed to find a path.
      *  @author Alex
      *
      * @param r The robot
      * @return An arrayList of nodes containing the optimal path.
      */
-    public ArrayList<Node> computePathForRRT(Robot r, Node goalNode)
+    public ArrayList<Node> computePathForRRT(Robot r) // delete that pls
     {
-        ArrayList<Node> solutionPath = new ArrayList<>();
-        ArrayList<Node> allNodesInGraph = new ArrayList<>();
+        // The nodes we have visited so far
+        ArrayList<Node> searchGraph = new ArrayList<>();
         TerrainMap myMap = r.getMap();
-        Node startNode = myMap.getMyMap()[(int) Math.round(r.getCurrentLocation().getX())]
+
+        // Start at the robot's current location
+        Node current = myMap.getMyMap()[(int) Math.round(r.getCurrentLocation().getX())]
                 [(int) Math.round(r.getCurrentLocation().getY())];
-        allNodesInGraph.add(startNode);
-        Node currentNode = startNode;
-        while (!goalReachable(currentNode, myMap.getMyMap(), goalNode))
+        searchGraph.add(current);
+
+        Node goal = null;
+
+        while ((goal = goalReachedOrReachable(current, myMap.getMyMap())) == null)
         {
-            Node randomNode;
-            while ((randomNode = generateRandomNode(myMap.getMyMap(), allNodesInGraph, r)) == null)
+            // Generate the random point in the terrain map
+            Node random = generateRandomPoint(myMap.getMyMap(), searchGraph);
+            // Find the node in your graph that is closest to the random point
+            ArrayList<NodeDistance> nodeDistances = new ArrayList<>();
+            for (Node thisOne : searchGraph)
             {
-                // Just keep generating it until it's not null anymore, so it's not in the forbidden zone
+                NodeDistance nodeDistance = new NodeDistance(thisOne, random);
+                nodeDistances.add(nodeDistance);
             }
-            // THEN DO STEP 4...
-            Node newNode = chooseNewNode(myMap.getMyMap(), currentNode, randomNode);
-            while (collision(newNode, allNodesInGraph))
+
+            // Gets whichever node has the shortest distance from the random one
+            NodeDistance theSmallest = nodeDistances.get(0);
+            for (int i = 1; i < nodeDistances.size(); i++)
             {
-                newNode = chooseNewNode(myMap.getMyMap(), currentNode, randomNode);
+                NodeDistance cur = nodeDistances.get(i);
+                if (cur.getDistance() < theSmallest.getDistance())
+                {
+                    theSmallest = cur;
+                }
             }
-            // The chooseNewNode should not be called if the goal is reached
-            newNode.getPathVisited().addAll(currentNode.getPathVisited());
-            newNode.getPathVisited().add(currentNode);
-            allNodesInGraph.add(newNode);
-            currentNode = newNode;
-            System.out.println("The current node is now at " + currentNode.getLocation().toString());
-            // The newNode is NOT generated properly.
+
+            // For theSmallest, get the adjacent node that is closest to the random point.
+            // No-go if the node is on top of an obstacle, or if it's out of bounds.
+            Node nextInGraph = getNextNodeInGraph(theSmallest, myMap.getMyMap(), random);
+            if (nextInGraph == null)
+            {
+                continue;
+            }
+            // There might be a pointer issue here. But I *think* it should be okay.
+            nextInGraph.getPathVisited().add(current);
+            nextInGraph.getPathVisited().addAll((new ArrayList<>(current.getPathVisited())));
+            current.setPathVisited(null);
+            searchGraph.add(nextInGraph);
+            current = nextInGraph;
         }
-        // This is the beginning of the end
-        Node endNode = currentNode;
-        solutionPath = endNode.getPathVisited();
-        // This actually isn't quite correct. We need to add the GOAL NODE.
-        return solutionPath;
+
+        Node end = searchGraphHasGoal(searchGraph);
+        if (end == null)
+        {
+            goal.getPathVisited().add(current);
+            goal.getPathVisited().addAll(new ArrayList<>(current.getPathVisited()));
+            searchGraph.add(goal);
+            current.setPathVisited(null);
+        }
+        else // Then we got the goal from the function, I believe
+        {
+            goal = end;
+            // A bit sketchy on this second line here
+            goal.setPathVisited(new ArrayList<>(current.getPathVisited()));
+        }
+
+        return goal.getPathVisited();
     }
 }

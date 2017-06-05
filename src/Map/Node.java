@@ -20,6 +20,8 @@ public class Node
     private Coordinate topRight;
     private Coordinate bottomLeft;
     private Coordinate bottomRight;
+
+    private boolean partOfPath = false;
     /**
      * All the previous nodes up to this point in our current path
      */
@@ -185,5 +187,16 @@ public class Node
     {
         this.type = type;
     }
+
+    public boolean isPartOfPath()
+    {
+        return partOfPath;
+    }
+
+    public void setPartOfPath(boolean partOfPath)
+    {
+        this.partOfPath = partOfPath;
+    }
+
     //</editor-fold>
 }

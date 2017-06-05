@@ -56,8 +56,10 @@ public class TerrainMap
         sb.append("TerrainMap toString(): \n\n");
         sb.append("Key: \n");
         sb.append("\t  .   = Regular node (Will become part of graph)\n");
+        sb.append("\t_PATH = Path node (It's part of the path that the robot takes\n");
         sb.append("\t_____ = Obstacle node\n");
         sb.append("\t_GOAL = Goal node\n");
+        sb.append("\tSTART = This is where the robot is starting.\n");
         sb.append("\tERROR = Something got jacked up. Possibly something is null.\n\n");
         for (Node[] aMyMap : myMap)
         {
@@ -67,7 +69,14 @@ public class TerrainMap
                 switch (current.getType())
                 {
                     case REGULAR:
-                        sb.append("  .   ");
+                        if (current.isPartOfPath())
+                        {
+                            sb.append("_PATH ");
+                        }
+                        else
+                        {
+                            sb.append("  .   ");
+                        }
                         break;
                     case OBSTACLE:
                         sb.append("_____ ");

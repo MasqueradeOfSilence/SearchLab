@@ -72,10 +72,15 @@ public class TestRRTPath extends TestCase
                 new Coordinate(601, 267), new Coordinate(666, 314), new Coordinate(616, 375),
                 new Coordinate(-0.8, -0.6), RobotUtils.distance(new Coordinate(609, 320.75),
                 new Coordinate(553, 327)), "obstacle"));
+        // Dang, 666. That's the number of the beast. :o
 
         auntBooty.calculateTerrainMap(obstacles);
+        System.out.println("Printing the initial map as follows: ");
+        auntBooty.getMap().print();
         ArrayList<Node> result = vision.computePathForRRT(auntBooty);
         assertTrue(result.size() > 0);
         System.out.println("The size is: " + result.size());
+        System.out.println("Printing the final map as follows: ");
+        auntBooty.getMap().print();
     }
 }

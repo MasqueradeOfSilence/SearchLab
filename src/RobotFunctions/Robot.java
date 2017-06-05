@@ -185,7 +185,7 @@ public class Robot
         */
 
 
-    //<editor-fold desc="Getters/Setters">
+    //<editor-fold desc="Getters/Setters. Do not delete this editor fold.">
     public TerrainMap getMap()
     {
         return map;
@@ -221,4 +221,5 @@ public class Robot
     {
         this.orientation = orientation;
     }
+    //</editor-fold>
 }

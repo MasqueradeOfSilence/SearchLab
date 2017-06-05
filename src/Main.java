@@ -31,6 +31,8 @@ public class Main
            }
            Decoder.updateRobot(robot, s);
            robot.rotateMe(connection);
+           // for my function, update robot based on path. But how to test that?
+
            /*
            RobotUtils.TYPE mytype=robot.GetMeWhereIAm();
            if(mytype==RobotUtils.TYPE.GOAL)

@@ -421,6 +421,17 @@ public class MachineVision
             goal.setPathVisited(new ArrayList<>(current.getPathVisited()));
         }
 
+        System.out.println("Path starts at position " + goal.getPathVisited().get(0).getLocation().toString());
+        // Hmm. May need to iterate backwards through that path.
+        // The thing is, there shouldn't be any weird branches at least in the FINAL PATH.
+        for (int j = 0; j < goal.getPathVisited().size(); j++)
+        {
+            goal.getPathVisited().get(j).setPartOfPath(true);
+        }
+        System.out.println("Size of the goal's path: " + goal.getPathVisited().size());
+        System.out.println("Size of the final search graph: " + searchGraph.size());
+        // Wow. It hardly omits anything. That's a minor problem, but it will affect the robot quite a bit.
+
         return goal.getPathVisited();
     }
 }

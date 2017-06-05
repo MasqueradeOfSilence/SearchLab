@@ -9,7 +9,7 @@ import Map.Node;
  */
 public class RobotUtils
 {
-    public static int sizeoftiles=100; // was 50
+    public static int sizeoftiles=50; // was 50
     public static int gridDimensionX = 1960/sizeoftiles;
     public static int gridDimensionY = 1020/sizeoftiles;
     public static int marginoferror=30;
@@ -87,5 +87,11 @@ public class RobotUtils
         }
         System.out.print("YOU'VE DONE GOOFED");
         return -1;
+    }
+
+    public static Coordinate frontOfRobot(Coordinate center, Coordinate frontCornerLeft, Coordinate frontCornerRight)
+    {
+        int midpoint = (int) Math.round((frontCornerLeft.getX() + frontCornerRight.getX()) / 2);
+        return new Coordinate(midpoint, center.getY());
     }
 }

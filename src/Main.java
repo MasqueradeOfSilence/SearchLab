@@ -44,7 +44,7 @@ public class Main
                 break;
             }
             else if (mytype==RobotUtils.TYPE.REGULAR||mytype==RobotUtils.TYPE.ROBOTSTARTLOCATION){
-               connection.sendSpeed(1, 1);
+               connection.sendSpeed(2, 2);
            }
            else
            {

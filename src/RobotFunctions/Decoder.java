@@ -28,7 +28,6 @@ public class Decoder
             final String key = keys.next();
             if (!key.equals("robot") && !key.equals("time"))
             {
-                // this broke eh
                 JSONObject jason = (JSONObject) myobject.get(key);
                 JSONArray orientation = jason.getJSONArray("orientation");
                 double xCoord = orientation.getDouble(0);
@@ -94,11 +93,30 @@ public class Decoder
             JSONArray centerCoordinates = robotstring.getJSONArray("center");
             double x = centerCoordinates.getDouble(0);
             double y = centerCoordinates.getDouble(1);
+            Coordinate currentCenter = new Coordinate((int)x, (int) y);
             JSONArray orientationCoordinates = robotstring.getJSONArray("orientation");
             double a = orientationCoordinates.getDouble(0);
             double b = orientationCoordinates.getDouble(1);
+            JSONArray corners = robotstring.getJSONArray("corners");
+            // Compute front of robot
+            JSONArray corner1 = corners.getJSONArray(0);
+            JSONArray corner2 = corners.getJSONArray(1);
+            JSONArray corner3 = corners.getJSONArray(2);
+            JSONArray corner4 = corners.getJSONArray(3);
+
+            Coordinate c1 = new Coordinate(corner1.getDouble(0), corner1.getDouble(1));
+            Coordinate c2 = new Coordinate(corner2.getDouble(0), corner2.getDouble(1));
+            Coordinate c3 = new Coordinate(corner3.getDouble(0), corner3.getDouble(1));
+            Coordinate c4 = new Coordinate(corner4.getDouble(0), corner4.getDouble(1));
+            // Not sure which two corners to use, tbh. Experimentation will be OK IF they don't change.
+            // nope
+            Coordinate frontOfRobot = RobotUtils.frontOfRobot(new Coordinate((int) x, (int) y),
+                    new Coordinate(corner2.getDouble(0), corner2.getDouble(1)),
+                    new Coordinate(corner3.getDouble(0), corner3.getDouble(1)));
+
             robot.setOrientation(new Coordinate(a, b));
-            robot.setCurrentLocation(new Coordinate((int) x, (int) y));
+            //robot.setCurrentLocation(new Coordinate((int) x, (int) y));
+            robot.setCurrentLocation(currentCenter);
         }
         catch( Exception e ){
             System.out.println("Robot not found ");

@@ -127,9 +127,43 @@ public class Robot
                         if(currentObstacle.getType().equals("goal"))
                         {
                             current.setType(RobotUtils.TYPE.GOAL);
+                            try
+                            {
+                                map.getMyMap()[p + 1][q + 1].setType(RobotUtils.TYPE.GOAL);
+                                map.getMyMap()[p + 1][q - 1].setType(RobotUtils.TYPE.GOAL);
+                                map.getMyMap()[p - 1][q + 1].setType(RobotUtils.TYPE.GOAL);
+                                map.getMyMap()[p - 1][q - 1].setType(RobotUtils.TYPE.GOAL);
+
+                                map.getMyMap()[p + 1][q].setType(RobotUtils.TYPE.GOAL);
+                                map.getMyMap()[p][q + 1].setType(RobotUtils.TYPE.GOAL);
+                                map.getMyMap()[p - 1][q].setType(RobotUtils.TYPE.GOAL);
+                                map.getMyMap()[p][q - 1].setType(RobotUtils.TYPE.GOAL);
+                            }
+                            catch (ArrayIndexOutOfBoundsException e)
+                            {
+                                // Don't do jack
+                            }
                         }
-                        else {
+                        else
+                        {
                             current.setType(RobotUtils.TYPE.OBSTACLE);
+                            try
+                            {
+                                map.getMyMap()[p + 1][q + 1].setType(RobotUtils.TYPE.OBSTACLE);
+                                map.getMyMap()[p + 1][q - 1].setType(RobotUtils.TYPE.OBSTACLE);
+                                map.getMyMap()[p - 1][q + 1].setType(RobotUtils.TYPE.OBSTACLE);
+                                map.getMyMap()[p - 1][q - 1].setType(RobotUtils.TYPE.OBSTACLE);
+
+                                map.getMyMap()[p + 1][q].setType(RobotUtils.TYPE.OBSTACLE);
+                                map.getMyMap()[p][q + 1].setType(RobotUtils.TYPE.OBSTACLE);
+                                map.getMyMap()[p - 1][q].setType(RobotUtils.TYPE.OBSTACLE);
+                                map.getMyMap()[p][q - 1].setType(RobotUtils.TYPE.OBSTACLE);
+                            }
+                            catch (ArrayIndexOutOfBoundsException e)
+                            {
+                                // Don't do jack
+                            }
+                            // The 8 tiles around it become obstacles too
                         }
                     }
                     // Otherwise, it stays with either goal or regular.
@@ -217,7 +251,7 @@ public class Robot
                 }
             }
             t.sendSpeed(-2, 2);
-            Thread.sleep(600);
+            Thread.sleep(1200);
             t.sendSpeed(0, 0);
         }
         System.out.println("I ESCAPE THE WHILE LOOP");

@@ -359,7 +359,7 @@ public class MachineVision
      * @param r The robot
      * @return An arrayList of nodes containing the optimal path.
      */
-    public ArrayList<Node> computePathForRRT(Robot r) // delete that pls
+    public ArrayList<Node> computePathForRRT(Robot r)
     {
         // The nodes we have visited so far
         ArrayList<Node> searchGraph = new ArrayList<>();

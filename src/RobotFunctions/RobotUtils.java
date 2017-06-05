@@ -12,6 +12,7 @@ public class RobotUtils
     public static int sizeoftiles=50;
     public static int gridDimensionX = 1960/sizeoftiles;
     public static int gridDimensionY = 1020/sizeoftiles;
+    public static int marginoferror=20;
 
     public static double distance(Coordinate point1, Coordinate point2)
     {

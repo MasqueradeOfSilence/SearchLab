@@ -144,15 +144,46 @@ public class Robot
             currentAngle += 360;
         }
         System.out.println(currentAngle);
+        Coordinate c=RobotUtils.convertFromPixeltoNode(currentLocation);
+        double degreeOfVector = map.getMyMap()[(int)c.getX()][(int)c.getY()].getDegree();
 
-        // Robot needs to face the vector angle
+        if (currentAngle > degreeOfVector + RobotUtils.marginoferror ||
+                currentAngle < degreeOfVector - RobotUtils.marginoferror)
+        {
+            t.sendSpeed(0, 0);
+            while (currentAngle > degreeOfVector +RobotUtils.marginoferror-5 || // wider or narrower?
+                    currentAngle < degreeOfVector - RobotUtils.marginoferror+5) {
+                double normalizedAngle = currentAngle - degreeOfVector;
+                if (normalizedAngle < 0) {
+                    normalizedAngle += 360;
+                }
+                if (normalizedAngle < 180) {
+                    t.sendSpeed(0, 3);
+                } else {
+                    t.sendSpeed(3, 0);
+                }
 
-        double degreefromMap = -1;
+                String responseFromServer = t.sendWhere();
+                if (responseFromServer.equals("None") || responseFromServer.equals("") ||
+                        responseFromServer.equals("\n")) {
+                    continue;
+                }
+                Decoder.updateRobot(this, responseFromServer);
+                currentAngle = Math.toDegrees(RobotUtils.robotCurrentAngle(orientation));
+                if (currentAngle < 0) {
+                    currentAngle += 360;
+                }
+                c=RobotUtils.convertFromPixeltoNode(currentLocation);
+                degreeOfVector = map.getMyMap()
+                        [(int)c.getX()][(int)c.getY()].getDegree();
+            }
+            }
+        }
 
         /*TODO  We need to calculate the degree that the robot gets from the terrain map.  Will be different now also need
         to recalculate  how we did our rotation as the formula was incorrect.
         */
-    }
+
 
     //<editor-fold desc="Getters/Setters">
     public TerrainMap getMap()

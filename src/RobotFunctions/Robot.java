@@ -40,6 +40,10 @@ public class Robot
             if(i!=optimalPath.size()-1) {
                 optimalPath.get(i).setDegree(RobotUtils.CalculateAngle(optimalPath.get(i), optimalPath.get(i + 1)));
             }
+            else
+            {
+                optimalPath.get(i).setDegree(  optimalPath.get(i-1).getDegree());
+            }
             System.out.println(optimalPath.get(i).toString());
         }
        // System.exit(0);
@@ -143,24 +147,59 @@ public class Robot
         {
             currentAngle += 360;
         }
-        System.out.println(currentAngle);
         Coordinate c=RobotUtils.convertFromPixeltoNode(currentLocation);
-        double degreeOfVector = map.getMyMap()[(int)c.getX()][(int)c.getY()].getDegree();
-
-        if (currentAngle > degreeOfVector + RobotUtils.marginoferror ||
-                currentAngle < degreeOfVector - RobotUtils.marginoferror)
+        if (map.getMyMap()[(int)c.getX()][(int)c.getY()].getType()== RobotUtils.TYPE.GOAL)
         {
             t.sendSpeed(0, 0);
-            while (currentAngle > degreeOfVector +RobotUtils.marginoferror-5 || // wider or narrower?
-                    currentAngle < degreeOfVector - RobotUtils.marginoferror+5) {
+            System.exit(0);
+
+        }
+        double degreeOfVector = map.getMyMap()[(int)c.getX()][(int)c.getY()].getDegree();
+        if(degreeOfVector==-1)
+        {
+            return;
+        }
+        System.out.print("I face this "+currentAngle);
+
+        System.out.println("But I should face this "+degreeOfVector);
+        return;
+
+        /*
+        double degreeuperbound=degreeOfVector + RobotUtils.marginoferror;
+        degreeuperbound%=360;
+        double degreelowerbound=degreeOfVector - RobotUtils.marginoferror;
+        if(degreelowerbound<0)
+        {
+            degreelowerbound+=360;
+        }
+
+        System.out.println("my angle is this "+currentAngle);
+        System.out.println("BUT It need to be this "+degreeOfVector);
+        System.out.println("Okay if less then this "+Math.toRadians(degreeuperbound));
+        System.out.println("OR GREATER THEn this "+Math.toRadians(degreelowerbound));
+        System.out.println("my type is this "+map.getMyMap()[(int)c.getX()][(int)c.getY()].getType());
+        System.out.println("My location is this "+map.getMyMap()[(int)c.getX()][(int)c.getY()].getLocation().toString());
+        if (Math.toRadians(currentAngle) > Math.toRadians(degreeuperbound) ||
+                Math.toRadians(currentAngle )< Math.toRadians(degreelowerbound))
+        {
+            t.sendSpeed(0, 0);
+            while (Math.toRadians(currentAngle) > Math.toRadians(degreeuperbound) || // wider or narrower?
+                    Math.toRadians(currentAngle) < Math.toRadians((degreelowerbound))) {
+                System.out.println("my angle is this "+currentAngle);
+                System.out.println("BUT It need to be this "+degreeOfVector);
+                System.out.println("Okay if less then this "+Math.toRadians(degreeuperbound));
+                System.out.println("OR GREATER THEn this "+Math.toRadians(degreelowerbound));
+                System.out.println("my type is this "+map.getMyMap()[(int)c.getX()][(int)c.getY()].getType());
+                System.out.println("My location is this "+map.getMyMap()[(int)c.getX()][(int)c.getY()].getLocation().toString());
+
                 double normalizedAngle = currentAngle - degreeOfVector;
                 if (normalizedAngle < 0) {
                     normalizedAngle += 360;
                 }
                 if (normalizedAngle < 180) {
-                    t.sendSpeed(0, 3);
+                    t.sendSpeed(-2, 2);
                 } else {
-                    t.sendSpeed(3, 0);
+                    t.sendSpeed(2, -2);
                 }
 
                 String responseFromServer = t.sendWhere();
@@ -176,9 +215,19 @@ public class Robot
                 c=RobotUtils.convertFromPixeltoNode(currentLocation);
                 degreeOfVector = map.getMyMap()
                         [(int)c.getX()][(int)c.getY()].getDegree();
+                 currentAngle = RobotUtils.robotCurrentAngle(this.orientation);
+                currentAngle = Math.toDegrees(currentAngle);
+                // Normalize
+                if (currentAngle < 0)
+                {
+                    currentAngle += 360;
+                }
             }
             }
-        }
+
+        System.out.println("I ESCAPE THE WHILE LOOP");
+         */
+    }
 
         /*TODO  We need to calculate the degree that the robot gets from the terrain map.  Will be different now also need
         to recalculate  how we did our rotation as the formula was incorrect.
@@ -204,8 +253,10 @@ public class Robot
     public void setCurrentLocation(Coordinate currentLocation)
     {
         this.currentLocation = currentLocation;
+        Coordinate c = RobotUtils.convertFromPixeltoNode(currentLocation);
+        //System.out.println("the robot is now located at "+c.toString());
         if(RobotUtils.startoff) {
-            Coordinate c = RobotUtils.convertFromPixeltoNode(currentLocation);
+
             map.getMyMap()[(int)c.getX()][(int)c.getY()].setType(RobotUtils.TYPE.ROBOTSTARTLOCATION);
             RobotUtils.startoff=false;
         }

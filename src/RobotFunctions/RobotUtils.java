@@ -58,15 +58,15 @@ public class RobotUtils
         }
         if(xdiff==1&&ydiff==1)
         {
-            return 135;
+            return 125;
         }
         if(xdiff==0&&ydiff==1)
         {
-            return 90;
+            return 270;
         }
         if(xdiff==-1&&ydiff==1)
         {
-            return 45;
+            return 315;
         }
         if(xdiff==-1&&ydiff==0)
         {
@@ -74,15 +74,15 @@ public class RobotUtils
         }
         if(xdiff==-1&&ydiff==-1)
         {
-            return 315;
+            return 45;
         }
         if(xdiff==0&&ydiff==-1)
         {
-            return 270;
+            return 90;
         }
         if(xdiff==1&&ydiff==-1)
         {
-            return 225;
+            return 135;
         }
         System.out.print("YOU'VE DONE GOOFED");
         return -1;

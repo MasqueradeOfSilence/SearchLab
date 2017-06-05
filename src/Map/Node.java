@@ -12,7 +12,7 @@ import static RobotFunctions.RobotUtils.TYPE.REGULAR;
  */
 public class Node
 {
-    private double degree = 0;
+    private double degree = -1;
     private Coordinate location = new Coordinate(-1, -1);
 
     // these would be in pixels, not node coordinates

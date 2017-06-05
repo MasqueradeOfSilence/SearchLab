@@ -88,16 +88,23 @@ public class Decoder
      */
     public static void updateRobot(Robot robot, String json)
     {
-        JSONObject jsonstring=new JSONObject(json);
-        JSONObject robotstring = jsonstring.getJSONObject("robot");
-        JSONArray centerCoordinates = robotstring.getJSONArray("center");
-        double x = centerCoordinates.getDouble(0);
-        double y = centerCoordinates.getDouble(1);
-        JSONArray orientationCoordinates = robotstring.getJSONArray("orientation");
-        double a = orientationCoordinates.getDouble(0);
-        double b = orientationCoordinates.getDouble(1);
-        robot.setOrientation(new Coordinate(a, b));
-        robot.setCurrentLocation(new Coordinate((int)x, (int)y));
-
+        try {
+            JSONObject jsonstring = new JSONObject(json);
+            JSONObject robotstring = jsonstring.getJSONObject("robot");
+            JSONArray centerCoordinates = robotstring.getJSONArray("center");
+            double x = centerCoordinates.getDouble(0);
+            double y = centerCoordinates.getDouble(1);
+            JSONArray orientationCoordinates = robotstring.getJSONArray("orientation");
+            double a = orientationCoordinates.getDouble(0);
+            double b = orientationCoordinates.getDouble(1);
+            robot.setOrientation(new Coordinate(a, b));
+            robot.setCurrentLocation(new Coordinate((int) x, (int) y));
+        }
+        catch( Exception e ){
+            System.out.println("Robot not found ");
     }
+    }
+
+
+
 }

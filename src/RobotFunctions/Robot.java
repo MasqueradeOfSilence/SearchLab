@@ -7,6 +7,9 @@ import TelnetFunctions.Telnet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Created by williamjones on 5/15/17.
@@ -34,8 +37,26 @@ public class Robot
      */
     public void calculatePath()
     {
-        optimalPath = vision.computeOptimalPathForBranchandBound(this);
-        //optimalPath = vision.computePathForRRT(this);
+        boolean rrt = true;
+        if (!rrt)
+        {
+            optimalPath = vision.computeOptimalPathForBranchandBound(this);
+        }
+        else
+        {
+            optimalPath = vision.computePathForRRT(this);
+            Collections.reverse(optimalPath);
+            ArrayList<Node> temp = new ArrayList<>();
+            for (int i = 0; i < optimalPath.size(); i++)
+            {
+                Node cur = optimalPath.get(i);
+                if (!temp.contains(cur))
+                {
+                    temp.add(cur);
+                }
+            }
+            optimalPath = temp;
+        }
         for (int i=0; i<optimalPath.size(); i++)
         {
             if(i!=optimalPath.size()-1) {
@@ -49,7 +70,7 @@ public class Robot
         }
         System.out.println("Okay, Alex prints out the final map: ");
         map.print();
-       // System.exit(0);
+        //System.exit(0);
     }
     public  RobotUtils.TYPE GetMeWhereIAm()
     {
@@ -114,6 +135,7 @@ public class Robot
             {
                 for (int q = 0; q < map.getMyMap()[p].length; q++)
                 {
+                    //System.out.println("The double for loop");
                     Node current = map.getMyMap()[p][q];
                     if (current == null)
                     {
@@ -251,7 +273,7 @@ public class Robot
                 }
             }
             t.sendSpeed(-2, 2);
-            Thread.sleep(1200);
+            Thread.sleep(1200); // was 1400 for old
             t.sendSpeed(0, 0);
         }
         System.out.println("I ESCAPE THE WHILE LOOP");

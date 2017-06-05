@@ -61,17 +61,18 @@ public class TerrainMap
         sb.append("\t_GOAL = Goal node\n");
         sb.append("\tSTART = This is where the robot is starting.\n");
         sb.append("\tERROR = Something got jacked up. Possibly something is null.\n\n");
-        for (Node[] aMyMap : myMap)
+        for (int i = 0; i < myMap.length; i++)
         {
-            for (int j = 0; j < aMyMap.length; j++)
+            for (int j = 0; j < myMap[i].length; j++)
             {
-                Node current = aMyMap[j];
+                Node current = myMap[i][j];
                 switch (current.getType())
                 {
                     case REGULAR:
                         if (current.isPartOfPath())
                         {
                             sb.append("_PATH ");
+                            //sb.append("(" + i + "," + j + ")");
                         }
                         else
                         {

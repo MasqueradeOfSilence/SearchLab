@@ -9,11 +9,11 @@ import Map.Node;
  */
 public class RobotUtils
 {
-    public static int sizeoftiles=50; // was 50
+    public static int sizeoftiles=60; // was 50
     public static int gridDimensionX = 1960/sizeoftiles;
     public static int gridDimensionY = 1020/sizeoftiles;
-    public static int marginoferror=30;
-    public static int innermarginofError=20;
+    public static int marginoferror=25; // was 30
+    public static int innermarginofError=15; // was 20
 
     public static double distance(Coordinate point1, Coordinate point2)
     {
@@ -86,6 +86,10 @@ public class RobotUtils
             return 135;
         }
         System.out.print("YOU'VE DONE GOOFED");
+        System.out.println("xdiff is " + xdiff);
+        System.out.println("ydiff is " + ydiff);
+        System.out.println("Calc's location is " + calc.getLocation().toString());
+        System.out.println("Next's location is " + next.getLocation().toString());
         return -1;
     }
 

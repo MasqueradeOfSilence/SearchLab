@@ -201,19 +201,19 @@ public class MachineVision
         int x = (int) Math.round(currentTile.getLocation().getX());
         int y = (int) Math.round(currentTile.getLocation().getY());
 
-        if (!outOfBounds(x - 1, y + 1)
-                && myMap[x - 1][y + 1].getType() == RobotUtils.TYPE.GOAL)
-        {
-            return myMap[x - 1][y + 1];
-        }
+//        if (!outOfBounds(x - 1, y + 1)
+//                && myMap[x - 1][y + 1].getType() == RobotUtils.TYPE.GOAL)
+//        {
+//            return myMap[x - 1][y + 1];
+//        }
         if (!outOfBounds(x, y + 1) && myMap[x][y + 1].getType() == RobotUtils.TYPE.GOAL)
         {
             return myMap[x][y + 1];
         }
-        if (!outOfBounds(x + 1, y + 1) && myMap[x + 1][y + 1].getType() == RobotUtils.TYPE.GOAL)
-        {
-            return myMap[x + 1][y + 1];
-        }
+//        if (!outOfBounds(x + 1, y + 1) && myMap[x + 1][y + 1].getType() == RobotUtils.TYPE.GOAL)
+//        {
+//            return myMap[x + 1][y + 1];
+//        }
         if (!outOfBounds(x - 1, y) && myMap[x - 1][y].getType() == RobotUtils.TYPE.GOAL)
         {
             return myMap[x - 1][y];
@@ -222,18 +222,18 @@ public class MachineVision
         {
             return myMap[x + 1][y];
         }
-        if (!outOfBounds(x - 1, y - 1) && myMap[x - 1][y - 1].getType() == RobotUtils.TYPE.GOAL)
-        {
-            return myMap[x - 1][y - 1];
-        }
+//        if (!outOfBounds(x - 1, y - 1) && myMap[x - 1][y - 1].getType() == RobotUtils.TYPE.GOAL)
+//        {
+//            return myMap[x - 1][y - 1];
+//        }
         if (!outOfBounds(x, y - 1) && myMap[x][y - 1].getType() == RobotUtils.TYPE.GOAL)
         {
             return myMap[x][y - 1];
         }
-        if (!outOfBounds(x + 1, y - 1) && myMap[x + 1][y - 1].getType() == RobotUtils.TYPE.GOAL)
-        {
-            return myMap[x + 1][y - 1];
-        }
+//        if (!outOfBounds(x + 1, y - 1) && myMap[x + 1][y - 1].getType() == RobotUtils.TYPE.GOAL)
+//        {
+//            return myMap[x + 1][y - 1];
+//        }
         return null;
     }
 
@@ -276,18 +276,18 @@ public class MachineVision
         int x = (int) Math.round(smallest.getLocation().getX());
         int y = (int) Math.round(smallest.getLocation().getY());
 
-        if (!outOfBounds(x - 1, y + 1) && !collidesWithObstacle(myMap[x - 1][y + 1]))
-        {
-            contestants.add(myMap[x - 1][y + 1]);
-        }
+//        if (!outOfBounds(x - 1, y + 1) && !collidesWithObstacle(myMap[x - 1][y + 1]))
+//        {
+//            contestants.add(myMap[x - 1][y + 1]);
+//        }
         if (!outOfBounds(x, y + 1) && !collidesWithObstacle(myMap[x][y + 1]))
         {
             contestants.add(myMap[x][y + 1]);
         }
-        if (!outOfBounds(x + 1, y + 1) && !collidesWithObstacle(myMap[x + 1][y + 1]))
-        {
-            contestants.add(myMap[x + 1][y + 1]);
-        }
+//        if (!outOfBounds(x + 1, y + 1) && !collidesWithObstacle(myMap[x + 1][y + 1]))
+//        {
+//            contestants.add(myMap[x + 1][y + 1]);
+//        }
         if (!outOfBounds(x - 1, y) && !collidesWithObstacle(myMap[x - 1][y]))
         {
             contestants.add(myMap[x - 1][y]);
@@ -296,18 +296,18 @@ public class MachineVision
         {
             contestants.add(myMap[x + 1][y]);
         }
-        if (!outOfBounds(x - 1, y - 1) && !collidesWithObstacle(myMap[x - 1][y - 1]))
-        {
-            contestants.add(myMap[x - 1][y - 1]);
-        }
+//        if (!outOfBounds(x - 1, y - 1) && !collidesWithObstacle(myMap[x - 1][y - 1]))
+//        {
+//            contestants.add(myMap[x - 1][y - 1]);
+//        }
         if (!outOfBounds(x, y - 1) && !collidesWithObstacle(myMap[x][y - 1]))
         {
             contestants.add(myMap[x][y - 1]);
         }
-        if (!outOfBounds(x + 1, y - 1) && !collidesWithObstacle(myMap[x + 1][y - 1]))
-        {
-            contestants.add(myMap[x + 1][y - 1]);
-        }
+//        if (!outOfBounds(x + 1, y - 1) && !collidesWithObstacle(myMap[x + 1][y - 1]))
+//        {
+//            contestants.add(myMap[x + 1][y - 1]);
+//        }
         if (contestants.size() == 0)
         {
             return null;
@@ -417,9 +417,10 @@ public class MachineVision
         if (end == null)
         {
             // Add goal to the path.
+            //goal.getPathVisited().add(current);
+            goal.getPathVisited().add(goal);
             goal.getPathVisited().add(current);
             goal.getPathVisited().addAll(new ArrayList<>(current.getPathVisited()));
-            goal.getPathVisited().add(goal);
             searchGraph.add(goal);
             current.setPathVisited(null);
         }

@@ -170,6 +170,10 @@ public class Node
 
     public ArrayList<Node> getPathVisited()
     {
+        if (pathVisited == null)
+        {
+            pathVisited = new ArrayList<>();
+        }
         return pathVisited;
     }
 

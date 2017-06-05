@@ -147,12 +147,20 @@ public class Robot
         Coordinate c=RobotUtils.convertFromPixeltoNode(currentLocation);
         double degreeOfVector = map.getMyMap()[(int)c.getX()][(int)c.getY()].getDegree();
 
-        if (currentAngle > degreeOfVector + RobotUtils.marginoferror ||
-                currentAngle < degreeOfVector - RobotUtils.marginoferror)
+        double degreeuperbound=degreeOfVector + RobotUtils.marginoferror;
+        degreeuperbound%=360;
+        double degreelowerbound=degreeOfVector - RobotUtils.marginoferror;
+        if(degreelowerbound<0)
+        {
+            degreelowerbound+=360;
+        }
+
+        if (Math.toRadians(currentAngle) > Math.toRadians(degreeuperbound) ||
+                Math.toRadians(currentAngle )< Math.toRadians(degreelowerbound))
         {
             t.sendSpeed(0, 0);
-            while (currentAngle > degreeOfVector +RobotUtils.marginoferror-5 || // wider or narrower?
-                    currentAngle < degreeOfVector - RobotUtils.marginoferror+5) {
+            while (Math.toRadians(currentAngle) > Math.toRadians(degreeuperbound-5) || // wider or narrower?
+                    Math.toRadians(currentAngle) < Math.toRadians((degreelowerbound+5))%360) {
                 double normalizedAngle = currentAngle - degreeOfVector;
                 if (normalizedAngle < 0) {
                     normalizedAngle += 360;

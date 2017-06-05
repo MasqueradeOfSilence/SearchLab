@@ -399,9 +399,11 @@ public class MachineVision
                 continue;
             }
             // There might be a pointer issue here. But I *think* it should be okay.
-            nextInGraph.getPathVisited().add(current);
-            nextInGraph.getPathVisited().addAll((new ArrayList<>(current.getPathVisited())));
-            current.setPathVisited(null);
+            nextInGraph.getPathVisited().add(theSmallest.getNode());
+            // Okay, now it does do something, but it doesn't have the end path.
+            nextInGraph.getPathVisited().addAll((new ArrayList<>(theSmallest.getNode().getPathVisited())));
+            // I just changed this. What will it do? null pointer exception...
+            theSmallest.getNode().setPathVisited(null);
             searchGraph.add(nextInGraph);
             current = nextInGraph;
         }
@@ -409,8 +411,10 @@ public class MachineVision
         Node end = searchGraphHasGoal(searchGraph);
         if (end == null)
         {
+            // Add goal to the path.
             goal.getPathVisited().add(current);
             goal.getPathVisited().addAll(new ArrayList<>(current.getPathVisited()));
+            goal.getPathVisited().add(goal);
             searchGraph.add(goal);
             current.setPathVisited(null);
         }

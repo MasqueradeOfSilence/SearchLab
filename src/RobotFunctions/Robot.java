@@ -35,6 +35,7 @@ public class Robot
     public void calculatePath()
     {
         optimalPath = vision.computeOptimalPathForBranchandBound(this);
+        //optimalPath = vision.computePathForRRT(this);
         for (int i=0; i<optimalPath.size(); i++)
         {
             if(i!=optimalPath.size()-1) {
@@ -46,6 +47,8 @@ public class Robot
             }
             System.out.println(optimalPath.get(i).toString());
         }
+        System.out.println("Okay, Alex prints out the final map: ");
+        map.print();
        // System.exit(0);
     }
     public  RobotUtils.TYPE GetMeWhereIAm()
@@ -157,49 +160,66 @@ public class Robot
         double angleIneedtoBecome = map.getMyMap()[(int)c.getX()][(int)c.getY()].getDegree();
         if(angleIneedtoBecome==-1)
         {
+            t.sendSpeed(0, 0);
+            System.out.println("I am not in the path anymore");
             return;
         }
-        double upperbound=angleIneedtoBecome+RobotUtils.marginoferror%360;
 
-        double lowerbound=angleIneedtoBecome-RobotUtils.marginoferror;
-        if(lowerbound<0)
+
+        double angle1=Math.abs(angleIneedtoBecome-currentAngle);
+        double angle2=360.0-angle1;
+        double angleICareAbout;
+        if(angle1<angle2)
         {
-            lowerbound+=360;
+            angleICareAbout=angle1;
         }
-            if (currentAngle > upperbound || currentAngle < lowerbound) {
-                t.sendSpeed(0, 0);
-                while (currentAngle > upperbound || currentAngle < lowerbound) {
-                    System.out.println("my angle is this " + currentAngle);
-                    System.out.println("my angle I should be is this " + angleIneedtoBecome);
-                    System.out.println("upper bound " + upperbound + " lowerbound " + lowerbound);
-                    double normalizedAngle = currentAngle - angleIneedtoBecome;
-                    if (normalizedAngle < 0) {
-                        normalizedAngle += 360;
-                    }
-                    System.out.println("my normalized angle is this " + normalizedAngle);
-                    if (normalizedAngle < 180) {
-                        t.sendSpeed(-2, 2);
-                    } else {
-                        t.sendSpeed(2, -2);
-                    }
-                    String responseFromServer = t.sendWhere();
-                    if (responseFromServer.equals("None") || responseFromServer.equals("") ||
-                            responseFromServer.equals("\n")) {
-                        continue;
-                    }
-                    Decoder.updateRobot(this, responseFromServer);
-                    currentAngle = Math.toDegrees(RobotUtils.robotCurrentAngle(orientation));
-
-                    if (currentAngle < 0) {
-                        currentAngle += 360;
-                    }
-
+        else
+        {
+            angleICareAbout=angle2;
+        }
+        if(angleICareAbout>RobotUtils.marginoferror)
+        {
+            while(angleICareAbout>RobotUtils.innermarginofError)
+            {
+                System.out.println("Robot's current angle is " + currentAngle);
+                //System.out.println("Angle I care about is " + angleICareAbout);
+                System.out.println("Angle I need to become is " + angleIneedtoBecome);
+                //if(angleICareAbout==angle1)
+                //if (angle1 < angle2)
+                {
+                    t.sendSpeed(2, -2);
+                }
+                //else
+                {
+                    //t.sendSpeed(-2, 2);
+                }
+                String responseFromServer = t.sendWhere();
+                if(responseFromServer.equals("None") || responseFromServer.equals("") ||
+                        responseFromServer.equals("\n"))
+                {
+                    continue;
+                }
+                Decoder.updateRobot(this, responseFromServer);
+                currentAngle = Math.toDegrees(RobotUtils.robotCurrentAngle(orientation));
+                if (currentAngle < 0)
+                {
+                    currentAngle += 360;
+                }
+                angle1=Math.abs(angleIneedtoBecome-currentAngle);
+                angle2=360.0-angle1;
+                if(angle1<angle2)
+                {
+                    angleICareAbout=angle1;
+                }
+                else
+                {
+                    angleICareAbout=angle2;
                 }
             }
-
-
-
-
+            t.sendSpeed(-2, 2);
+            Thread.sleep(600);
+            t.sendSpeed(0, 0);
+        }
         System.out.println("I ESCAPE THE WHILE LOOP");
 
     }

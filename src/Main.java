@@ -37,20 +37,21 @@ public class Main
 
            RobotUtils.TYPE mytype=robot.GetMeWhereIAm();
            //System.out.println(mytype);
-            /*
+
            if(mytype==RobotUtils.TYPE.GOAL)
             {
                 connection.sendSpeed(0,0);
                 break;
             }
             else if (mytype==RobotUtils.TYPE.REGULAR||mytype==RobotUtils.TYPE.ROBOTSTARTLOCATION){
-               connection.sendSpeed(2, 2);
+               connection.sendSpeed(1, 1);
            }
            else
            {
+               connection.sendSpeed(-1, -1);
                System.out.println("OH NO IN AN OBSTACLE!");
            }
-           */
+
 
            // robot will follow what the list says to do
 

@@ -67,42 +67,42 @@ public class MachineVision
                 priotrityque.add(add);
             }
         }
-        if(location.getX()!=0&&location.getY()!=0) {
-            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY() - 1];
-            //System.out.println("I add "+add.getLocation().toString());
-
-            if (doIcontainduplicates(add, updating)){
-                add.getPathVisited().addAll(updating.getPathVisited());
-                priotrityque.add(add);
-            }
-        }
-        if(location.getX()!=terrainMap.getMyMap().length-1&&location.getY()!=terrainMap.getMyMap()[0].length-1) {
-            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY() + 1];
-            //System.out.println("I add "+add.getLocation().toString());
-
-            if (doIcontainduplicates(add, updating)) {
-                add.getPathVisited().addAll(updating.getPathVisited());
-                priotrityque.add(add);
-            }
-        }
-        if(location.getX()!=terrainMap.getMyMap().length-1&&location.getY()!=0) {
-            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY() - 1];
-           // System.out.println("I add "+add.getLocation().toString());
-
-            if (doIcontainduplicates(add, updating)) {
-                add.getPathVisited().addAll(updating.getPathVisited());
-                priotrityque.add(add);
-            }
-        }
-        if(location.getX()!=0&&location.getY()!=terrainMap.getMyMap()[0].length-1) {
-            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY() + 1];
-           // System.out.println("I add "+add.getLocation().toString());
-
-            if (doIcontainduplicates(add, updating)) {
-                add.getPathVisited().addAll(updating.getPathVisited());
-                priotrityque.add(add);
-            }
-        }
+//        if(location.getX()!=0&&location.getY()!=0) {
+//            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY() - 1];
+//            //System.out.println("I add "+add.getLocation().toString());
+//
+//            if (doIcontainduplicates(add, updating)){
+//                add.getPathVisited().addAll(updating.getPathVisited());
+//                priotrityque.add(add);
+//            }
+//        }
+//        if(location.getX()!=terrainMap.getMyMap().length-1&&location.getY()!=terrainMap.getMyMap()[0].length-1) {
+//            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY() + 1];
+//            //System.out.println("I add "+add.getLocation().toString());
+//
+//            if (doIcontainduplicates(add, updating)) {
+//                add.getPathVisited().addAll(updating.getPathVisited());
+//                priotrityque.add(add);
+//            }
+//        }
+//        if(location.getX()!=terrainMap.getMyMap().length-1&&location.getY()!=0) {
+//            add = terrainMap.getMyMap()[(int) location.getX() + 1][(int) location.getY() - 1];
+//           // System.out.println("I add "+add.getLocation().toString());
+//
+//            if (doIcontainduplicates(add, updating)) {
+//                add.getPathVisited().addAll(updating.getPathVisited());
+//                priotrityque.add(add);
+//            }
+//        }
+//        if(location.getX()!=0&&location.getY()!=terrainMap.getMyMap()[0].length-1) {
+//            add = terrainMap.getMyMap()[(int) location.getX() - 1][(int) location.getY() + 1];
+//           // System.out.println("I add "+add.getLocation().toString());
+//
+//            if (doIcontainduplicates(add, updating)) {
+//                add.getPathVisited().addAll(updating.getPathVisited());
+//                priotrityque.add(add);
+//            }
+//        }
     }
     public Node getHighestPrioirity(ArrayList<Node>prioirtyqueue)
     {
@@ -166,6 +166,10 @@ public class MachineVision
             addChildren(priorityque, current.getLocation(),current, r.getMap());
             priorityque.remove(current);
 
+        }
+        for (int i = 0; i < bfsf.getPathVisited().size(); i++)
+        {
+            bfsf.getPathVisited().get(i).setPartOfPath(true);
         }
         return bfsf.getPathVisited();
     }
@@ -360,10 +364,11 @@ public class MachineVision
         // The nodes we have visited so far
         ArrayList<Node> searchGraph = new ArrayList<>();
         TerrainMap myMap = r.getMap();
+        Coordinate newLocation = RobotUtils.convertFromPixeltoNode(r.getCurrentLocation());
 
         // Start at the robot's current location
-        Node current = myMap.getMyMap()[(int) Math.round(r.getCurrentLocation().getX())]
-                [(int) Math.round(r.getCurrentLocation().getY())];
+        Node current = myMap.getMyMap()[(int) Math.round(newLocation.getX())]
+                [(int) Math.round(newLocation.getY())];
         searchGraph.add(current);
 
         Node goal = null;
@@ -403,7 +408,7 @@ public class MachineVision
             // Okay, now it does do something, but it doesn't have the end path.
             nextInGraph.getPathVisited().addAll((new ArrayList<>(theSmallest.getNode().getPathVisited())));
             // I just changed this. What will it do? null pointer exception...
-            theSmallest.getNode().setPathVisited(null);
+            //theSmallest.getNode().setPathVisited(null);
             searchGraph.add(nextInGraph);
             current = nextInGraph;
         }

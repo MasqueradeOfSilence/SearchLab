@@ -9,10 +9,11 @@ import Map.Node;
  */
 public class RobotUtils
 {
-    public static int sizeoftiles=50;
+    public static int sizeoftiles=100; // was 50
     public static int gridDimensionX = 1960/sizeoftiles;
     public static int gridDimensionY = 1020/sizeoftiles;
     public static int marginoferror=30;
+    public static int innermarginofError=20;
 
     public static double distance(Coordinate point1, Coordinate point2)
     {
@@ -46,7 +47,7 @@ public class RobotUtils
     }
     public static Coordinate convertFromPixeltoNode(Coordinate c)
     {
-        return new Coordinate(c.getX()/sizeoftiles, c.getY()/sizeoftiles);
+        return new Coordinate(Math.round(c.getX()/sizeoftiles), Math.round(c.getY()/sizeoftiles));
     }
     public static double CalculateAngle(Node calc, Node next)
     {
@@ -58,7 +59,7 @@ public class RobotUtils
         }
         if(xdiff==1&&ydiff==1)
         {
-            return 125;
+            return 225;
         }
         if(xdiff==0&&ydiff==1)
         {
